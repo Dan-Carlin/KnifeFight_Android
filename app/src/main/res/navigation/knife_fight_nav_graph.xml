@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/knife_fight_nav_graph"
+    app:startDestination="@id/knifeFightHomeFragment">
+
+    <fragment
+        android:id="@+id/knifeFightHomeFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.home.KnifeFightHomeFragment"
+        android:label="Knife Fight - Home"
+        tools:layout="@layout/knife_fight_fragment_home">
+        <action
+            android:id="@+id/action_knifeFightHomeFragment_to_knifeFightInfoFragment"
+            app:destination="@id/knifeFightInfoFragment" />
+        <action
+            android:id="@+id/action_knifeFightHomeFragment_to_knifeFightSettingsFragment"
+            app:destination="@id/knifeFightSettingsFragment" />
+        <action
+            android:id="@+id/action_knifeFightHomeFragment_to_setupFirstStepFragment"
+            app:destination="@id/setupFirstStepFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/knifeFightInfoFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.info.KnifeFightInfoFragment"
+        android:label="Knife Fight - Info"
+        tools:layout="@layout/knife_fight_fragment_info">
+        <action
+            android:id="@+id/action_knifeFightInfoFragment_to_infoAboutFragment"
+            app:destination="@id/infoAboutFragment" />
+        <action
+            android:id="@+id/action_knifeFightInfoFragment_to_infoCardListFragment"
+            app:destination="@id/infoCardListFragment" />
+        <action
+            android:id="@+id/action_knifeFightInfoFragment_to_infoRulesFragment"
+            app:destination="@id/infoRulesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/knifeFightSettingsFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.settings.KnifeFightSettingsFragment"
+        android:label="Knife Fight - Settings"
+        tools:layout="@layout/knife_fight_fragment_settings" />
+    <fragment
+        android:id="@+id/setupFirstStepFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.setup.firststep.SetupFirstStepFragment"
+        android:label="Knife Fight - Setup - First Step"
+        tools:layout="@layout/setup_fragment_first_step">
+        <action
+            android:id="@+id/action_setupFirstStepFragment_to_setupSecondStepFragment"
+            app:destination="@id/setupSecondStepFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/setupSecondStepFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.setup.secondstep.SetupSecondStepFragment"
+        android:label="Knife Fight - Setup - Second Step"
+        tools:layout="@layout/setup_fragment_second_step">
+        <action
+            android:id="@+id/action_setupSecondStepFragment_to_setupThirdStepFragment"
+            app:destination="@id/setupThirdStepFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setupThirdStepFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.setup.thirdstep.SetupThirdStepFragment"
+        android:label="Knife Fight - Setup - Third Step"
+        tools:layout="@layout/setup_fragment_third_step">
+        <action
+            android:id="@+id/action_setupThirdStepFragment_to_knifeFightGameToolsFragment"
+            app:destination="@id/knifeFightGameToolsFragment"
+            app:popUpTo="@id/knifeFightHomeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/knifeFightGameToolsFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.gametools.KnifeFightGameToolsFragment"
+        android:label="Knife Fight - Game Tools"
+        tools:layout="@layout/knife_fight_fragment_game_tools"/>
+
+    <fragment
+        android:id="@+id/gameToolsAttackModeDialogFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.gametools.attackmode.GameToolsAttackModeDialogFragment"
+        android:label="Knife Fight - Attack Mode"
+        tools:layout="@layout/game_tools_dialog_fragment_attack_mode" />
+
+    <fragment
+        android:id="@+id/gameToolsCharacterInfoDialogFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.gametools.characterinfo.GameToolsCharacterInfoDialogFragment"
+        android:label="Knife Fight - Character Info"
+        tools:layout="@layout/game_tools_dialog_fragment_character_info" />
+
+    <fragment
+        android:id="@+id/gameToolsGangBannerEditDialogFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.gametools.editgangbanner.GameToolsEditGangBannerDialogFragment"
+        android:label="Knife Fight - Edit Gang Banner"
+        tools:layout="@layout/game_tools_dialog_fragment_edit_gang_banner" />
+
+    <fragment
+        android:id="@+id/gameToolsHowToUseDialogFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.gametools.howtouse.GameToolsHowToUseDialogFragment"
+        android:label="Knife Fight - How to Use"
+        tools:layout="@layout/game_tools_dialog_fragment_how_to_use" />
+
+    <fragment
+        android:id="@+id/infoAboutFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.info.about.InfoAboutFragment"
+        android:label="Knife Fight - About"
+        tools:layout="@layout/info_fragment_about" />
+
+    <fragment
+        android:id="@+id/infoCardListFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.info.cardlist.InfoCardListFragment"
+        android:label="Knife Fight - Card List"
+        tools:layout="@layout/info_fragment_card_list" />
+
+    <fragment
+        android:id="@+id/infoRulesFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.info.rules.InfoRulesFragment"
+        android:label="Knife Fight - Rules"
+        tools:layout="@layout/info_fragment_rules" />
+
+</navigation>
