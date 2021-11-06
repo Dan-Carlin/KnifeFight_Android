@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_attack_mode.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_character_info.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_edit_gang_banner.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_gang_banner_edit.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_how_to_use.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/info_fragment_about.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/info_fragment_card_list.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/info_fragment_rules.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_fragment_game_tools.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_fragment_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_fragment_info.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_fragment_settings.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/setup_fragment_first_step.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/setup_fragment_second_step.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/setup_fragment_third_step.xml" value="0.2957427536231884" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
