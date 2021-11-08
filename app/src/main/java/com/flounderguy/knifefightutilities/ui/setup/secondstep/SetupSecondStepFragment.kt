@@ -18,7 +18,7 @@ class SetupSecondStepFragment : Fragment(R.layout.setup_fragment_second_step) {
 
         secondStepBinding.apply {
 
-            buttonNextStepSetup.setOnClickListener {
+            buttonStepThreeSetup.setOnClickListener {
                 val actionSecondStepToThirdStep =
                     SetupSecondStepFragmentDirections.actionSetupSecondStepFragmentToSetupThirdStepFragment()
                 findNavController().navigate(actionSecondStepToThirdStep)

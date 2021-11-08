@@ -32,12 +32,12 @@ object KnifeFightAppModule {
     @Provides
     fun provideCharacterTraitDao(db: KnifeFightDatabase) = db.characterTraitDao()
 
-    @ApplicationScope
     @Provides
     @Singleton
+    @ApplicationScope
     fun provideApplicationScope() = CoroutineScope(SupervisorJob())
 }
 
-@Retention(AnnotationRetention.RUNTIME)
 @Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class ApplicationScope

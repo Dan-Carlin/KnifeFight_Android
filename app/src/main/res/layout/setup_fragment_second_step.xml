@@ -6,24 +6,174 @@
     android:layout_height="match_parent"
     tools:context=".ui.setup.secondstep.SetupSecondStepFragment">
 
-    <TextView
-        android:id="@+id/text_title_second_step"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_second_step_setup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Second Step"
-        app:layout_constraintBottom_toTopOf="@+id/button_next_step_setup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_next_step_setup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Step"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title_second_step" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/text_second_title_info"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/text_step_two_instructions_info"
+            android:textSize="20sp" />
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            app:columnCount="6"
+            app:rowCount="2">
+
+            <Button
+                android:id="@+id/button_gang_red_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_red"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_blue_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_blue"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_green_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_green"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_orange_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_orange"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_purple_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_purple"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_cyan_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_cyan"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_white_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_white"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_black_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_black"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_brown_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_brown"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_yellow_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_yellow"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_pink_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_pink"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <Button
+                android:id="@+id/button_gang_dark_green_setup"
+                android:layout_width="36dp"
+                android:layout_height="46dp"
+                android:layout_margin="4dp"
+                app:backgroundTint="@color/gang_dark_green"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+        </androidx.gridlayout.widget.GridLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_previous_step_setup"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:text="@string/button_previous_step_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_step_three_setup"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_step_three_setup"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:text="@string/button_next_step_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_previous_step_setup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

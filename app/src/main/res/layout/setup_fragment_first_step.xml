@@ -6,24 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".ui.setup.firststep.SetupFirstStepFragment">
 
-    <TextView
-        android:id="@+id/text_title_first_step"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_first_step_setup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="First Step"
-        app:layout_constraintBottom_toTopOf="@+id/button_next_step_setup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_next_step_setup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Step"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title_first_step" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/text_first_title_info"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/text_step_one_instructions_info"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edit_gang_name_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:gravity="center_horizontal"
+            android:hint="@string/text_name_your_gang_hint"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/button_help_with_name_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_help_with_name_label"
+            app:cornerRadius="35dp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_exit_setup"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:text="@string/button_exit_setup_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_step_two_setup"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_step_two_setup"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:text="@string/button_next_step_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_exit_setup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

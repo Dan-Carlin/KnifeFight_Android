@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "trait_table")
 @Parcelize
+@Entity(tableName = "trait_table")
 data class CharacterTrait(
     val name: String,
     val weapon: String,

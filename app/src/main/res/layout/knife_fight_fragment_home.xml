@@ -6,34 +6,91 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.KnifeFightHomeFragment">
 
-    <Button
-        android:id="@+id/button_start_fight_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start the Fight"
-        app:layout_constraintBottom_toTopOf="@+id/button_info_home"
+    <ImageView
+        android:id="@+id/image_logo_kf_home"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/fragment_padding"
+        android:layout_marginBottom="278dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_logo_kf_desc"
+        app:layout_constraintBottom_toTopOf="@+id/button_start_fight_home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/button_start_fight_home"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="@string/button_start_fight_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_info_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_info_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Info"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="@string/button_info_label"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toTopOf="@+id/button_settings_home"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_start_fight_home" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_settings_home"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:text="@string/button_settings_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_disclaimer_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_disclaimer_home"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:layout_marginStart="85dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:gravity="center"
+        android:text="@string/text_disclaimer_info"
+        app:layout_constraintBottom_toTopOf="@+id/image_logo_sg_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_logo_sg_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="85dp"
+        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_logo_sg_desc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image_logo_fg_home"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/image_logo_fg_home"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_logo_fg_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_info_home" />
+        app:layout_constraintStart_toEndOf="@+id/image_logo_sg_home"
+        app:layout_constraintTop_toTopOf="@+id/image_logo_sg_home"
+        tools:src="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
