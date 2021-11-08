@@ -3,37 +3,4 @@
     <!--Knife Fight App strings-->
     <string name="app_name">Knife Fight Utilities</string>
 
-    <!--knife_fight_fragment_home-->
-    <string name="button_start_fight_label">Start The Fight</string>
-    <string name="button_info_label">Info</string>
-    <string name="button_settings_label">Settings</string>
-
-    <string name="image_logo_kf_desc">Knife Fight logo</string>
-    <string name="image_logo_sg_desc">Something Good logo</string>
-    <string name="image_logo_fg_desc">Flounder Guy logo</string>
-
-    <string name="text_disclaimer_info">
-        <b><i>DISCLAIMER:</i></b> This is a companion app for the <i>Knife Fight</i> card game,
-        not a standalone game.
-    </string>
-
-    <!--general setup strings-->
-    <string name="button_next_step_label">Next Step</string>
-
-    <!--setup_fragment_first_step-->
-    <string name="button_help_with_name_label">Help me think of one!</string>
-    <string name="button_exit_setup_label">Exit Setup</string>
-
-    <string name="text_first_title_info">First…</string>
-    <string name="text_step_one_instructions_info">Let\'s come up with a name for your gang.</string>
-
-    <string name="text_name_your_gang_hint">Name your gang</string>
-
-
-    <!--setup_fragment_second_step-->
-    <string name="button_previous_step_label">Previous Step</string>
-
-    <string name="text_second_title_info">Next…</string>
-    <string name="text_step_two_instructions_info">Let\'s choose a color for your gang.</string>
-
 </resources>
