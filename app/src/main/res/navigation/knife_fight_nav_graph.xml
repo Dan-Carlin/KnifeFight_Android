@@ -76,7 +76,14 @@
         android:id="@+id/knifeFightGameToolsFragment"
         android:name="com.flounderguy.knifefightutilities.ui.gametools.KnifeFightGameToolsFragment"
         android:label="Knife Fight - Game Tools"
-        tools:layout="@layout/knife_fight_fragment_game_tools"/>
+        tools:layout="@layout/knife_fight_fragment_game_tools">
+        <argument
+            android:name="gang"
+            app:argType="com.flounderguy.knifefightutilities.data.Gang" />
+        <action
+            android:id="@+id/action_knifeFightGameToolsFragment_to_knifeFightSettingsFragment"
+            app:destination="@id/knifeFightSettingsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/gameToolsAttackModeDialogFragment"

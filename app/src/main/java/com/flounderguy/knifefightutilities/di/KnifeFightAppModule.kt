@@ -27,6 +27,10 @@ object KnifeFightAppModule {
         .build()
 
     @Provides
+    // TODO: Replace hard coded value with user input from the settings page.
+    fun provideStartingHp() = 25
+
+    @Provides
     fun provideGangDao(db: KnifeFightDatabase) = db.gangDao()
 
     @Provides
