@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.flounderguy.knifefightutilities.R
 import com.flounderguy.knifefightutilities.databinding.SetupFragmentSecondStepBinding
-import com.flounderguy.knifefightutilities.ui.setup.KnifeFightSetupViewModel
 import com.flounderguy.knifefightutilities.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -16,7 +15,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class SetupSecondStepFragment : Fragment(R.layout.setup_fragment_second_step) {
 
-    private val setupViewModel: KnifeFightSetupViewModel by viewModels()
+    private val secondStepViewModel: SetupSecondStepViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,16 +24,18 @@ class SetupSecondStepFragment : Fragment(R.layout.setup_fragment_second_step) {
 
         secondStepBinding.apply {
             buttonNextStepSetup.setOnClickListener {
-                setupViewModel.onSecondStepCompleted()
+                secondStepViewModel.onSecondStepCompleted()
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            setupViewModel.secondStepEvent.collect { event ->
+            secondStepViewModel.secondStepEvent.collect { event ->
                 when (event) {
-                    is KnifeFightSetupViewModel.SecondStepEvent.NavigateToThirdStepScreen -> {
+                    is SetupSecondStepViewModel.SecondStepEvent.NavigateToThirdStepScreen -> {
                         val actionSecondStepToThirdStep =
-                            SetupSecondStepFragmentDirections.actionSetupSecondStepFragmentToSetupThirdStepFragment()
+                            SetupSecondStepFragmentDirections.actionSetupSecondStepFragmentToSetupThirdStepFragment(
+                                event.color
+                            )
                         findNavController().navigate(actionSecondStepToThirdStep)
                     }
                 }.exhaustive

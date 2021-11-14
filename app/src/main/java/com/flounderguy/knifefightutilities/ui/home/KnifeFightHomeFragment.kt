@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.flounderguy.knifefightutilities.R
 import com.flounderguy.knifefightutilities.databinding.KnifeFightFragmentHomeBinding
-import com.flounderguy.knifefightutilities.ui.setup.KnifeFightSetupViewModel
 import com.flounderguy.knifefightutilities.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -16,7 +15,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
 
-    private val setupViewModel: KnifeFightSetupViewModel by viewModels()
+    private val homeViewModel: KnifeFightHomeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,30 +24,38 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
 
         homeBinding.apply {
             buttonStartFightHome.setOnClickListener {
-                setupViewModel.onNewGameStarted()
+                homeViewModel.onNewGameStarted()
             }
             buttonInfoHome.setOnClickListener {
-                setupViewModel.onInfoClicked()
+                homeViewModel.onInfoClicked()
             }
             buttonSettingsHome.setOnClickListener {
-                setupViewModel.onSettingsClicked()
+                homeViewModel.onSettingsClicked()
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            setupViewModel.homeEvent.collect { event ->
+            homeViewModel.homeEvent.collect { event ->
                 when (event) {
-                    is KnifeFightSetupViewModel.HomeEvent.NavigateToFirstStepScreen -> {
+                    is KnifeFightHomeViewModel.HomeEvent.NavigateToConfirmNewGameScreen -> {
+                        // TODO: Implement this dialog navigation
+                    }
+                    is KnifeFightHomeViewModel.HomeEvent.NavigateToGameToolsScreen -> {
+                        val actionHomeToGameTools =
+                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToKnifeFightGameToolsFragment()
+                        findNavController().navigate(actionHomeToGameTools)
+                    }
+                    is KnifeFightHomeViewModel.HomeEvent.NavigateToFirstStepScreen -> {
                         val actionHomeToSetup =
                             KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToSetupFirstStepFragment()
                         findNavController().navigate(actionHomeToSetup)
                     }
-                    is KnifeFightSetupViewModel.HomeEvent.NavigateToInfoScreen -> {
+                    is KnifeFightHomeViewModel.HomeEvent.NavigateToInfoScreen -> {
                         val actionHomeToInfo =
                             KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToKnifeFightInfoFragment()
                         findNavController().navigate(actionHomeToInfo)
                     }
-                    is KnifeFightSetupViewModel.HomeEvent.NavigateToSettingsScreen -> {
+                    is KnifeFightHomeViewModel.HomeEvent.NavigateToSettingsScreen -> {
                         val actionHomeToSettings =
                             KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToKnifeFightSettingsFragment()
                         findNavController().navigate(actionHomeToSettings)

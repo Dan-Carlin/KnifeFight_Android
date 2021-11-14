@@ -47,15 +47,15 @@ class KnifeFightGameToolsFragment : Fragment(R.layout.knife_fight_fragment_game_
                         val howToUseDialog = GameToolsHowToUseDialogFragment()
                         howToUseDialog.show(parentFragmentManager, "How to Use Dialog")
                     }
-                    is KnifeFightGameToolsViewModel.GameToolsEvent.ShowAttackModeDialog -> {
+                    is KnifeFightGameToolsViewModel.GameToolsEvent.NavigateToAttackModeScreen -> {
                         val attackModeDialog = GameToolsAttackModeDialogFragment()
                         attackModeDialog.show(parentFragmentManager, "Attack Mode Dialog")
                     }
-                    is KnifeFightGameToolsViewModel.GameToolsEvent.ShowCharacterInfoDialog -> {
+                    is KnifeFightGameToolsViewModel.GameToolsEvent.NavigateToCharacterInfoScreen -> {
                         val characterInfoDialog = GameToolsCharacterInfoDialogFragment()
                         characterInfoDialog.show(parentFragmentManager, "Character Info Dialog")
                     }
-                    is KnifeFightGameToolsViewModel.GameToolsEvent.ShowEditGangBannerDialog -> {
+                    is KnifeFightGameToolsViewModel.GameToolsEvent.NavigateToEditGangBannerScreen -> {
                         val editGangBannerDialog = GameToolsEditGangBannerDialogFragment()
                         editGangBannerDialog.show(parentFragmentManager, "Edit Gang Banner Dialog")
                     }

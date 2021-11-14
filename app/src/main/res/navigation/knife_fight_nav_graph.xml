@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_knifeFightHomeFragment_to_setupFirstStepFragment"
             app:destination="@id/setupFirstStepFragment" />
+        <action
+            android:id="@+id/action_knifeFightHomeFragment_to_knifeFightGameToolsFragment"
+            app:destination="@id/knifeFightGameToolsFragment" />
     </fragment>
 
     <fragment
@@ -60,16 +63,22 @@
         <action
             android:id="@+id/action_setupSecondStepFragment_to_setupThirdStepFragment"
             app:destination="@id/setupThirdStepFragment" />
+        <argument
+            android:name="name"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/setupThirdStepFragment"
         android:name="com.flounderguy.knifefightutilities.ui.setup.thirdstep.SetupThirdStepFragment"
         android:label="Knife Fight - Setup - Third Step"
         tools:layout="@layout/setup_fragment_third_step">
+        <argument
+            android:name="color"
+            app:argType="com.flounderguy.knifefightutilities.data.Gang$GangColor"
+            android:defaultValue="NONE" />
         <action
-            android:id="@+id/action_setupThirdStepFragment_to_knifeFightGameToolsFragment"
-            app:destination="@id/knifeFightGameToolsFragment"
-            app:popUpTo="@id/knifeFightHomeFragment" />
+            android:id="@+id/action_setupThirdStepFragment_to_setupFinalStepFragment"
+            app:destination="@id/setupFinalStepFragment" />
     </fragment>
 
     <fragment
@@ -77,9 +86,6 @@
         android:name="com.flounderguy.knifefightutilities.ui.gametools.KnifeFightGameToolsFragment"
         android:label="Knife Fight - Game Tools"
         tools:layout="@layout/knife_fight_fragment_game_tools">
-        <argument
-            android:name="gang"
-            app:argType="com.flounderguy.knifefightutilities.data.Gang" />
         <action
             android:id="@+id/action_knifeFightGameToolsFragment_to_knifeFightSettingsFragment"
             app:destination="@id/knifeFightSettingsFragment" />
@@ -126,5 +132,15 @@
         android:name="com.flounderguy.knifefightutilities.ui.info.rules.InfoRulesFragment"
         android:label="Knife Fight - Rules"
         tools:layout="@layout/info_fragment_rules" />
+    <fragment
+        android:id="@+id/setupFinalStepFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.setup.finalstep.SetupFinalStepFragment"
+        android:label="setup_fragment_final_step"
+        tools:layout="@layout/setup_fragment_final_step" >
+        <action
+            android:id="@+id/action_setupFinalStepFragment_to_knifeFightGameToolsFragment"
+            app:destination="@id/knifeFightGameToolsFragment"
+            app:popUpTo="@id/knifeFightHomeFragment" />
+    </fragment>
 
 </navigation>

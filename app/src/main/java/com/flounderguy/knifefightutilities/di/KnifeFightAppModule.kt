@@ -2,7 +2,7 @@ package com.flounderguy.knifefightutilities.di
 
 import android.app.Application
 import androidx.room.Room
-import com.flounderguy.knifefightutilities.data.KnifeFightDatabase
+import com.flounderguy.knifefightutilities.data.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,8 +27,11 @@ object KnifeFightAppModule {
         .build()
 
     @Provides
-    // TODO: Replace hard coded value with user input from the settings page.
-    fun provideStartingHp() = 25
+    @Singleton
+    fun provideKnifeFightRepository(
+        gangDao: GangDao,
+        characterTraitDao: CharacterTraitDao
+    ): KnifeFightRepository = KnifeFightDataRepository(gangDao, characterTraitDao)
 
     @Provides
     fun provideGangDao(db: KnifeFightDatabase) = db.gangDao()

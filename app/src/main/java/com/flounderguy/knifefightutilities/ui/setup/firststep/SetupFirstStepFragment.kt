@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.flounderguy.knifefightutilities.R
 import com.flounderguy.knifefightutilities.databinding.SetupFragmentFirstStepBinding
-import com.flounderguy.knifefightutilities.ui.setup.KnifeFightSetupViewModel
 import com.flounderguy.knifefightutilities.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -16,7 +15,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
 
-    private val setupViewModel: KnifeFightSetupViewModel by viewModels()
+    private val firstStepViewModel: SetupFirstStepViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,16 +24,18 @@ class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
 
         firstStepBinding.apply {
             buttonNextStepSetup.setOnClickListener {
-                setupViewModel.onFirstStepCompleted()
+                firstStepViewModel.onFirstStepCompleted()
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            setupViewModel.firstStepEvent.collect { event ->
+            firstStepViewModel.firstStepEvent.collect { event ->
                 when (event) {
-                    is KnifeFightSetupViewModel.FirstStepEvent.NavigateToSecondStepScreen -> {
+                    is SetupFirstStepViewModel.FirstStepEvent.NavigateToSecondStepScreen -> {
                         val actionFirstStepToSecondStep =
-                            SetupFirstStepFragmentDirections.actionSetupFirstStepFragmentToSetupSecondStepFragment()
+                            SetupFirstStepFragmentDirections.actionSetupFirstStepFragmentToSetupSecondStepFragment(
+                                event.name
+                            )
                         findNavController().navigate(actionFirstStepToSecondStep)
                     }
                 }.exhaustive
