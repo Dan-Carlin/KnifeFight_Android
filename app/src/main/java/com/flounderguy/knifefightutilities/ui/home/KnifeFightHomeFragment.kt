@@ -23,6 +23,9 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
         val homeBinding = KnifeFightFragmentHomeBinding.bind(view)
 
         homeBinding.apply {
+            buttonContinueFightHome.setOnClickListener {
+                homeViewModel.onContinueGameClicked()
+            }
             buttonStartFightHome.setOnClickListener {
                 homeViewModel.onNewGameStarted()
             }
@@ -38,11 +41,13 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
             homeViewModel.homeEvent.collect { event ->
                 when (event) {
                     is KnifeFightHomeViewModel.HomeEvent.NavigateToConfirmNewGameScreen -> {
-                        // TODO: Implement this dialog navigation
+                        val actionHomeToConfirmNewGame =
+                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToHomeConfirmNewGameDialogFragment()
+                        findNavController().navigate(actionHomeToConfirmNewGame)
                     }
                     is KnifeFightHomeViewModel.HomeEvent.NavigateToGameToolsScreen -> {
                         val actionHomeToGameTools =
-                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToKnifeFightGameToolsFragment()
+                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToGamePlayerToolsFragment()
                         findNavController().navigate(actionHomeToGameTools)
                     }
                     is KnifeFightHomeViewModel.HomeEvent.NavigateToFirstStepScreen -> {
@@ -57,7 +62,9 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
                     }
                     is KnifeFightHomeViewModel.HomeEvent.NavigateToSettingsScreen -> {
                         val actionHomeToSettings =
-                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToKnifeFightSettingsFragment()
+                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToKnifeFightSettingsFragment(
+                                event.previousPage
+                            )
                         findNavController().navigate(actionHomeToSettings)
                     }
                 }.exhaustive

@@ -33,7 +33,7 @@ class SetupFinalStepFragment : Fragment(R.layout.setup_fragment_final_step) {
                 when (event) {
                     is SetupFinalStepViewModel.FinalStepEvent.NavigateToGameToolsScreen -> {
                         val actionFinalStepToGameTools =
-                            SetupFinalStepFragmentDirections.actionSetupFinalStepFragmentToKnifeFightGameToolsFragment()
+                            SetupFinalStepFragmentDirections.actionSetupFinalStepFragmentToGamePlayerToolsFragment()
                         findNavController().navigate(actionFinalStepToGameTools)
                     }
                 }.exhaustive

@@ -12,38 +12,53 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the SetupFinalStepFragment.
+ * This ViewModel is in charge of:
+ *      - Creating Gang objects based on trait selections made by the user and saving them in the
+ *          database.
+ *      - Notifying the fragment which trait belongs to the user.
+ *      - Providing navigation events for the fragment to implement.
+ */
 @HiltViewModel
 class SetupFinalStepViewModel @Inject constructor(
     private val repository: KnifeFightRepository
 ) : ViewModel() {
 
+    // This populates the _userTrait upon initialization.
     init {
         getUserTrait()
     }
 
     /**
-     * Variables that hold the trait chosen in the previous step as observable LiveData
+     * User trait variable
      */
+    // This creates a variable to hold the trait selected in the third step.
     private val _userTrait = MutableLiveData<Gang.Trait>()
     val userTrait: LiveData<Gang.Trait>
         get() = _userTrait
 
     /**
-     * Lists that hold the selected rival Gang traits and the Gang objects to be added to db
+     * Rival Gang lists
      */
+    // This creates a list of rival Gang objects to be populated and inserted into the database.
     private val rivalGangList = mutableListOf<Gang>()
+    // This creates a list of rival Gang traits based on user selections.
     private val rivalGangTraits = mutableListOf<Gang.Trait>()
 
     /**
-     * Navigation event channel
+     * Event channel for FinalStepEvents
      */
+    // This creates a channel for all events associated with this ViewModel's corresponding fragment.
     private val finalStepEventChannel = Channel<FinalStepEvent>()
     val finalStepEvent = finalStepEventChannel.receiveAsFlow()
 
     /**
-     * Navigation function for SetupFinalStepFragment
+     * Event functions for the FinalStep fragment
      */
+    // This creates functions that can be called from the fragment to execute each event.
     fun onSetupCompleted() = viewModelScope.launch {
+        // This populates the list of Gang objects and inserts them into the database.
         populateRivalGangList()
         for (gang in rivalGangList) {
             repository.insertGang(gang)
@@ -52,19 +67,27 @@ class SetupFinalStepViewModel @Inject constructor(
     }
 
     /**
-     * Select/deselect functions for character trait buttons
+     * Select/deselect function for character trait buttons
      */
-    fun onTraitSelected(trait: Gang.Trait) = rivalGangTraits.add(trait)
-
-    fun onTraitDeselected(trait: Gang.Trait) = rivalGangTraits.remove(trait)
+    // This adds the trait to the rivalGangTraits list if it is selected and removes it when deselected.
+    fun onTraitSelected(trait: Gang.Trait, isSelected: Boolean) {
+        if (isSelected) {
+            rivalGangTraits.add(trait)
+        } else {
+            rivalGangTraits.remove(trait)
+        }
+    }
 
     /**
-     * Functions to set user trait value and populate rival gang list using the list of traits
+     * Private functions
      */
+    // This fetches the trait from the database and is called during initialization of the page.
     private fun getUserTrait() = viewModelScope.launch {
         _userTrait.value.let { repository.getGangTrait() }
     }
 
+    // This takes each trait in the list of traits selected by the user and wraps it in a Gang object
+    // with default values. It is called when exiting the page.
     private fun populateRivalGangList() {
         for (trait in rivalGangTraits) {
             val newRivalGang = Gang("", Gang.GangColor.NONE, trait, isUser = false, isDefeated = false)
@@ -73,8 +96,9 @@ class SetupFinalStepViewModel @Inject constructor(
     }
 
     /**
-     * Navigation event for SetupFinalStepFragment
+     * Event List
      */
+    // This creates a list of events that must be implemented at some point.
     sealed class FinalStepEvent {
         object NavigateToGameToolsScreen : FinalStepEvent()
     }
