@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_fragment_player_banner.xml" value="0.15625" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_fragment_player_tools.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_attack_mode.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_character_info.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/game_tools_dialog_fragment_edit_gang_banner.xml" value="0.2957427536231884" />
@@ -16,9 +18,21 @@
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_fragment_home.xml" value="0.1743119266055046" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_fragment_info.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/knife_fight_fragment_settings.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/setup_fragment_final_step.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/setup_fragment_first_step.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/setup_fragment_second_step.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/setup_fragment_third_step.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_dialog_fragment_attack_mode.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_dialog_fragment_character_info.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_dialog_fragment_edit_gang.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_dialog_fragment_edit_gang_banner.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_fragment_attack_mode.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_fragment_character_info.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_fragment_counterattack_mode.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_fragment_edit_gang.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_fragment_roll_results.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_fragment_rolls_results.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/conta/Desktop/Active_Projects/KnifeFightUtilities_Android/app/src/main/res/layout/tools_fragment_second_wind.xml" value="0.17831813576494426" />
       </map>
     </option>
   </component>

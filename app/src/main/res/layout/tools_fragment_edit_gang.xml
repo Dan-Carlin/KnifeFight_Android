@@ -4,26 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.setup.thirdstep.SetupThirdStepFragment">
+    tools:context=".ui.game.tools.editgang.ToolsEditGangFragment">
 
     <TextView
-        android:id="@+id/text_title_third_step"
+        android:id="@+id/text_title_edit_gang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Third Step"
-        app:layout_constraintBottom_toTopOf="@+id/button_next_step_setup"
+        android:text="Edit Gang"
+        app:layout_constraintBottom_toTopOf="@+id/button_close_edit_gang"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_next_step_setup"
+        android:id="@+id/button_close_edit_gang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next Step"
+        android:text="Close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title_third_step" />
+        app:layout_constraintTop_toBottomOf="@+id/text_title_edit_gang" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

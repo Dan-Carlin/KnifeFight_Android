@@ -2,7 +2,7 @@ package com.flounderguy.knifefightutilities.di
 
 import android.app.Application
 import androidx.room.Room
-import com.flounderguy.knifefightutilities.data.KnifeFightDatabase
+import com.flounderguy.knifefightutilities.data.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +25,13 @@ object KnifeFightAppModule {
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()
+
+    @Provides
+    @Singleton
+    fun provideKnifeFightRepository(
+        gangDao: GangDao,
+        characterTraitDao: CharacterTraitDao
+    ): KnifeFightRepository = KnifeFightDataRepository(gangDao, characterTraitDao)
 
     @Provides
     fun provideGangDao(db: KnifeFightDatabase) = db.gangDao()

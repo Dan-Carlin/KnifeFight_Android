@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.game.tools.GamePlayerToolsFragment">
+
+    <Button
+        android:id="@+id/button_attack_mode_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attack Mode"
+        app:layout_constraintBottom_toTopOf="@+id/button_counterattack_mode_tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_counterattack_mode_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Counter-attack Mode"
+        app:layout_constraintBottom_toTopOf="@+id/button_character_info_tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_attack_mode_tools" />
+
+    <Button
+        android:id="@+id/button_character_info_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Character Info"
+        app:layout_constraintBottom_toTopOf="@+id/button_edit_gang_tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_counterattack_mode_tools" />
+
+    <Button
+        android:id="@+id/button_edit_gang_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Gang"
+        app:layout_constraintBottom_toTopOf="@+id/button_settings_tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_character_info_tools" />
+
+    <Button
+        android:id="@+id/button_settings_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        app:layout_constraintBottom_toTopOf="@+id/button_home_tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_edit_gang_tools" />
+
+    <Button
+        android:id="@+id/button_home_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        app:layout_constraintBottom_toTopOf="@+id/button_player_banner_tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_settings_tools" />
+
+    <Button
+        android:id="@+id/button_player_banner_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player Banner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_home_tools" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
