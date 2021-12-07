@@ -1,6 +1,48 @@
 <resources>
 
-    <!--Knife Fight App strings-->
+    <!--App strings-->
     <string name="app_name">Knife Fight Utilities</string>
+
+    <!--knife_fight_fragment_home-->
+    <string name="button_continue_fight_label">Continue The Fight</string>
+    <string name="button_start_fight_label">Start the Fight</string>
+    <string name="button_info_label">Info</string>
+    <string name="button_settings_label">Settings</string>
+
+    <string name="image_logo_kf_desc">Knife Fight logo</string>
+    <string name="image_logo_sg_desc">Something Good logo</string>
+    <string name="image_logo_fg_desc">Flounder Guy logo</string>
+
+    <string name="text_disclaimer_info">
+        <b><i>DISCLAIMER:</i></b> This is a companion app for the <i>Knife Fight</i> card game,
+        not a standalone game.
+    </string>
+
+    <!--Setup strings-->
+    <string name="button_previous_step_label">Previous Step</string>
+    <string name="button_next_step_label">Next Step</string>
+
+    <!--setup_fragment_first_step-->
+    <string name="button_help_with_name_label">Help me think of one!</string>
+
+    <string name="text_first_step_title">First…</string>
+    <string name="text_first_step_instructions_info">Let\'s come up with a name for your gang.</string>
+
+    <string name="text_name_your_gang_hint">Name your gang</string>
+    <string name="button_cancel_setup_label">Cancel Setup</string>
+
+    <!--setup_fragment_second_step-->
+    <string name="text_second_step_title">Next…</string>
+    <string name="text_second_step_instructions_info">Let\'s choose a gang color.</string>
+
+    <!--setup_fragment_third_step-->
+    <string name="text_third_step_title">Now…</string>
+    <string name="text_third_step_instructions_info">Let\'s select which character trait card you drew.</string>
+
+    <!--setup_fragment_final_step-->
+    <string name="text_final_step_title">Lastly…</string>
+    <string name="text_final_step_instructions_info">Select all the character traits your opponents drew.</string>
+
+    <string name="button_finish_setup_label">Finish Setup</string>
 
 </resources>

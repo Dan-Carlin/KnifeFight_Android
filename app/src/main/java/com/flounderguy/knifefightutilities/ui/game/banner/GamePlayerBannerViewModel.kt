@@ -35,8 +35,8 @@ class GamePlayerBannerViewModel @Inject constructor(
     val userGangName: LiveData<String>
         get() = _userGangName
 
-    private val _userGangColor = MutableLiveData<Gang.GangColor>(userGang.value?.color)
-    val userGangColor: LiveData<Gang.GangColor>
+    private val _userGangColor = MutableLiveData<Gang.Color>(userGang.value?.color)
+    val userGangColor: LiveData<Gang.Color>
         get() = _userGangColor
 
     private val _userGangTrait = MutableLiveData<Gang.Trait>(userGang.value?.trait)

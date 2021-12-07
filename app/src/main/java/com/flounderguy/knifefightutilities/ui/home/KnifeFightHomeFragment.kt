@@ -37,6 +37,10 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
             }
         }
 
+        homeViewModel.activeGame.observe(viewLifecycleOwner) {
+            homeBinding.buttonContinueFightHome.isEnabled = it
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             homeViewModel.homeEvent.collect { event ->
                 when (event) {

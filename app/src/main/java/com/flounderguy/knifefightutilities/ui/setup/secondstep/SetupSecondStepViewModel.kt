@@ -1,8 +1,6 @@
 package com.flounderguy.knifefightutilities.ui.setup.secondstep
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.flounderguy.knifefightutilities.data.Gang
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -23,14 +21,28 @@ class SetupSecondStepViewModel @Inject constructor(
 ) : ViewModel() {
 
     /**
-     * Color value for the user Gang object
+     * Gang Name variable
+     */
+    // This fetches the name string from the previous step.
+    val gangName = state.get<String>("name")
+
+    /**
+     * Color values for the user Gang object
      */
     // This takes the color selected by the user and saves it for the Gang object creation in the
     // third step.
-    var gangColor = Gang.GangColor.NONE
+    private val _colorIsSelected = MutableLiveData(false)
+    val colorIsSelected: LiveData<Boolean>
+        get() = _colorIsSelected
+
+
+    var gangColor = state.get<Gang.Color>("color") ?: Gang.Color.NONE
         set(value) {
             field = value
             state.set("color", value)
+            if (value != Gang.Color.NONE) {
+                _colorIsSelected.value = true
+            }
         }
 
     /**
@@ -44,8 +56,19 @@ class SetupSecondStepViewModel @Inject constructor(
      * Event functions for the SecondStep fragment
      */
     // This creates functions that can be called from the fragment to execute each event.
+    fun onPreviousStepButtonClicked() = viewModelScope.launch {
+        secondStepEventChannel.send(SecondStepEvent.NavigateBackToFirstStep)
+    }
+
     fun onSecondStepCompleted() = viewModelScope.launch {
-        secondStepEventChannel.send(SecondStepEvent.NavigateToThirdStepScreen(gangColor))
+        if (gangName != null) {
+            secondStepEventChannel.send(
+                SecondStepEvent.NavigateToThirdStepScreen(
+                    gangName,
+                    gangColor
+                )
+            )
+        }
     }
 
     /**
@@ -53,7 +76,8 @@ class SetupSecondStepViewModel @Inject constructor(
      */
     // This creates a list of events that must be implemented at some point.
     sealed class SecondStepEvent {
-        data class NavigateToThirdStepScreen(val color: Gang.GangColor) :
+        object NavigateBackToFirstStep : SecondStepEvent()
+        data class NavigateToThirdStepScreen(val name: String, val color: Gang.Color) :
             SecondStepEvent()
     }
 }

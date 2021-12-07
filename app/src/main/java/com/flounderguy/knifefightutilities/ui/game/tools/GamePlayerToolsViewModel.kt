@@ -1,15 +1,11 @@
 package com.flounderguy.knifefightutilities.ui.game.tools
 
 import androidx.lifecycle.*
-import com.flounderguy.knifefightutilities.data.CharacterTrait
 import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
 import com.flounderguy.knifefightutilities.ui.settings.KnifeFightSettingsViewModel
-import com.flounderguy.knifefightutilities.util.DieType
-import com.flounderguy.knifefightutilities.util.rollDice
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,8 +27,8 @@ class GamePlayerToolsViewModel @Inject constructor(
     val userGangName: LiveData<String>
         get() = _userGangName
 
-    private val _userGangColor = MutableLiveData<Gang.GangColor>(userGang.value?.color)
-    val userGangColor: LiveData<Gang.GangColor>
+    private val _userGangColor = MutableLiveData<Gang.Color>(userGang.value?.color)
+    val userGangColor: LiveData<Gang.Color>
         get() = _userGangColor
 
     private val _userGangTrait = MutableLiveData<Gang.Trait>(userGang.value?.trait)

@@ -66,9 +66,13 @@
         android:label="Knife Fight - Setup - Third Step"
         tools:layout="@layout/setup_fragment_third_step">
         <argument
+            android:name="name"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
             android:name="color"
             android:defaultValue="NONE"
-            app:argType="com.flounderguy.knifefightutilities.data.Gang$GangColor" />
+            app:argType="com.flounderguy.knifefightutilities.data.Gang$Color" />
         <action
             android:id="@+id/action_setupThirdStepFragment_to_setupFinalStepFragment"
             app:destination="@id/setupFinalStepFragment" />
@@ -83,6 +87,9 @@
             android:id="@+id/action_setupFinalStepFragment_to_gamePlayerToolsFragment"
             app:destination="@id/gamePlayerToolsFragment"
             app:popUpTo="@id/knifeFightHomeFragment" />
+        <argument
+            android:name="gang"
+            app:argType="com.flounderguy.knifefightutilities.data.Gang" />
     </fragment>
 
     <fragment

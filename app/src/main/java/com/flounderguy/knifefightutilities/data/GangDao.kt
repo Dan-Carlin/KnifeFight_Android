@@ -13,7 +13,10 @@ interface GangDao {
     fun getRivalGangs(): Flow<List<Gang>>
 
     @Query("SELECT count(*) FROM gang_table WHERE isUser = 1")
-    suspend fun gangCount(): Int
+    suspend fun userGangCount(): Int
+
+    @Query("SELECT count(*) FROM gang_table WHERE isUser = 0")
+    suspend fun rivalGangCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(gang: Gang)

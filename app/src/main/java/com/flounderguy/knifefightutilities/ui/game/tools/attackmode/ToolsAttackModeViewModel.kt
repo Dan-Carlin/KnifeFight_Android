@@ -28,8 +28,8 @@ class ToolsAttackModeViewModel @Inject constructor(
     private val userGangFlow = repository.getUserGang()
     val userGang = userGangFlow.asLiveData()
 
-    private val _userGangColor = MutableLiveData<Gang.GangColor>(userGang.value?.color)
-    val userGangColor: LiveData<Gang.GangColor>
+    private val _userGangColor = MutableLiveData<Gang.Color>(userGang.value?.color)
+    val userGangColor: LiveData<Gang.Color>
         get() = _userGangColor
 
     private val _userGangTrait = MutableLiveData<Gang.Trait>(userGang.value?.trait)

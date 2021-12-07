@@ -1,7 +1,11 @@
 package com.flounderguy.knifefightutilities.ui.setup.firststep
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,14 +27,49 @@ class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
         val firstStepBinding = SetupFragmentFirstStepBinding.bind(view)
 
         firstStepBinding.apply {
-            buttonNextStepSetup.setOnClickListener {
-                firstStepViewModel.onFirstStepCompleted()
+            editGangNameSetup.apply {
+                setText(firstStepViewModel.gangName)
+
+                addTextChangedListener {
+                    firstStepViewModel.gangName = it.toString()
+                }
+
+                addTextChangedListener(object : TextWatcher {
+                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        buttonNextStepSetup.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty()
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                    }
+
+                    override fun afterTextChanged(s: Editable) {
+                    }
+                })
+            }
+
+            buttonHelpWithNameSetup.setOnClickListener {
+                editGangNameSetup.setText(firstStepViewModel.generateGangName())
+            }
+
+            buttonCancelSetup.setOnClickListener {
+                firstStepViewModel.onCancelButtonPressed()
+            }
+
+            buttonNextStepSetup.apply {
+                isEnabled = editGangNameSetup.text.isNotEmpty()
+
+                setOnClickListener {
+                    firstStepViewModel.onFirstStepCompleted()
+                }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             firstStepViewModel.firstStepEvent.collect { event ->
                 when (event) {
+                    is SetupFirstStepViewModel.FirstStepEvent.NavigateBackToHomeScreen -> {
+                        findNavController().popBackStack()
+                    }
                     is SetupFirstStepViewModel.FirstStepEvent.NavigateToSecondStepScreen -> {
                         val actionFirstStepToSecondStep =
                             SetupFirstStepFragmentDirections.actionSetupFirstStepFragmentToSetupSecondStepFragment(

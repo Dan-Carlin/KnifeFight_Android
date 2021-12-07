@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +8,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--Gang colors-->
+    <color name="gang_red">#FFFB0202</color>
+    <color name="gang_blue">#FF073CC5</color>
+    <color name="gang_green">#FF46EA27</color>
+    <color name="gang_orange">#FFF77902</color>
+    <color name="gang_purple">#FFB006CA</color>
+    <color name="gang_cyan">#FF09DAE7</color>
+    <color name="gang_white">#FFEEEEEE</color>
+    <color name="gang_black">#FF131313</color>
+    <color name="gang_brown">#FF6B3223</color>
+    <color name="gang_yellow">#FFF2F91D</color>
+    <color name="gang_pink">#FFF91D9B</color>
+    <color name="gang_dark_green">#FF1D4D19</color>
+
 </resources>

@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CharacterTraitDao {
 
+    @Query("SELECT * FROM trait_table ORDER BY name ASC")
+    fun getAll(): Flow<List<CharacterTrait>>
+
     @Query("SELECT * FROM trait_table WHERE name IS :name")
     fun getTraitByName(name: String): Flow<CharacterTrait>
 

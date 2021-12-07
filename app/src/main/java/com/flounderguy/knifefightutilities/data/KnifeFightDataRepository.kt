@@ -9,6 +9,10 @@ class KnifeFightDataRepository @Inject constructor(
     private val characterTraitDao: CharacterTraitDao
 ) : KnifeFightRepository {
 
+    override fun getTraitList(): Flow<List<CharacterTrait>> {
+        return characterTraitDao.getAll()
+    }
+
     override fun getTraitFlow(traitLabel: Gang.Trait): Flow<CharacterTrait> {
         return characterTraitDao.getTraitByName(traitLabel.asString)
     }
@@ -65,11 +69,11 @@ class KnifeFightDataRepository @Inject constructor(
         }
     }
 
-    override suspend fun getGangColor(): Gang.GangColor? {
+    override suspend fun getGangColor(): Gang.Color? {
         return if (userGangExists()) {
             getUserGang().asLiveData().value?.color
         } else {
-            Gang.GangColor.NONE
+            Gang.Color.NONE
         }
     }
 
@@ -82,7 +86,11 @@ class KnifeFightDataRepository @Inject constructor(
     }
 
     override suspend fun userGangExists(): Boolean {
-        return gangDao.gangCount() != 0
+        return gangDao.userGangCount() != 0
+    }
+
+    override suspend fun rivalGangsExist(): Boolean {
+        return gangDao.rivalGangCount() != 0
     }
 
     override suspend fun insertGang(gang: Gang) {
@@ -100,6 +108,7 @@ class KnifeFightDataRepository @Inject constructor(
 
 interface KnifeFightRepository {
     // Trait functions to implement
+    fun getTraitList(): Flow<List<CharacterTrait>>
     fun getTraitFlow(traitLabel: Gang.Trait): Flow<CharacterTrait>
     suspend fun getHp(traitLabel: Gang.Trait): Int?
     suspend fun getGuts(traitLabel: Gang.Trait): Int?
@@ -115,9 +124,10 @@ interface KnifeFightRepository {
     fun getUserGang(): Flow<Gang>
     fun getRivalGangs(): Flow<List<Gang>>
     suspend fun getGangName(): String?
-    suspend fun getGangColor(): Gang.GangColor?
+    suspend fun getGangColor(): Gang.Color?
     suspend fun getGangTrait(): Gang.Trait?
     suspend fun userGangExists(): Boolean
+    suspend fun rivalGangsExist(): Boolean
     suspend fun insertGang(gang: Gang)
     suspend fun updateGang(gang: Gang)
     suspend fun clearGangs()

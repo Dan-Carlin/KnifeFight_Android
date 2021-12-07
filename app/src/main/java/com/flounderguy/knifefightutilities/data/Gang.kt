@@ -3,13 +3,14 @@ package com.flounderguy.knifefightutilities.data
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.flounderguy.knifefightutilities.R
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "gang_table")
 @Parcelize
 data class Gang(
     val name: String?,
-    val color: GangColor?,
+    val color: Color?,
     val trait: Trait,
     val isUser: Boolean,
     val isDefeated: Boolean,
@@ -17,12 +18,20 @@ data class Gang(
     val id: Int = 0
 ) : Parcelable {
 
-    enum class GangColor {
-        RED, BLUE, GREEN,
-        ORANGE, PURPLE, CYAN,
-        WHITE, BLACK, BROWN,
-        YELLOW, PINK, DARK_GREEN,
-        NONE
+    enum class Color(val resValue: Int) {
+        RED(R.color.gang_red),
+        BLUE(R.color.gang_blue),
+        GREEN(R.color.gang_green),
+        ORANGE(R.color.gang_orange),
+        PURPLE(R.color.gang_purple),
+        CYAN(R.color.gang_cyan),
+        WHITE(R.color.gang_white),
+        BLACK(R.color.gang_black),
+        BROWN(R.color.gang_brown),
+        YELLOW(R.color.gang_yellow),
+        PINK(R.color.gang_pink),
+        DARK_GREEN(R.color.gang_dark_green),
+        NONE(R.color.design_default_color_primary)
     }
 
     enum class Trait(val asString: String) {

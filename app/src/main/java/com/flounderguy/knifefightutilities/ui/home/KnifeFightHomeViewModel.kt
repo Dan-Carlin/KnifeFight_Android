@@ -76,8 +76,11 @@ class KnifeFightHomeViewModel @Inject constructor(
     // This is the method called when the ViewModel is initialized in order to update the _activeGame
     // variable.
     private fun checkIfActiveGameExists() = viewModelScope.launch {
-        if (repository.userGangExists())
+        if (repository.rivalGangsExist()) {
             _activeGame.value = true
+        } else {
+            repository.clearGangs()
+        }
     }
 
     /**

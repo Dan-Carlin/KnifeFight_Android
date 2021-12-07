@@ -20,7 +20,7 @@ class SetupThirdStepViewModelTest {
 
     private val dispatcher = TestCoroutineDispatcher()
     private val gangName = "The Homies"
-    private val gangColor = Gang.GangColor.BLACK
+    private val gangColor = Gang.Color.BLACK
     private val gangTrait = Gang.Trait.ADVENTUROUS
     private val newGang = Gang(gangName, gangColor, gangTrait, isUser = true, isDefeated = false)
 
@@ -35,7 +35,7 @@ class SetupThirdStepViewModelTest {
         repository = mockk{ coEvery { insertGang(any()) } just runs }
         state = mockk(relaxed = true) {
             every { get<String>("name") } returns gangName
-            every { get<Gang.GangColor>("color") } returns gangColor
+            every { get<Gang.Color>("color") } returns gangColor
         }
 
         thirdStepViewModel = SetupThirdStepViewModel(repository, state)

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_columnSpan="1"
+    app:layout_rowSpan="1">
+
+    <ImageView
+        android:id="@+id/image_trait_thumb"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        tools:ignore="ContentDescription"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/text_trait_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/image_trait_thumb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_column="0"
+        app:layout_gravity="center_horizontal"
+        app:layout_row="0"
+        tools:text="Trait" />
+
+    <CheckBox
+        android:id="@+id/button_trait_select"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <View
+        android:id="@+id/button_disabled_overlay"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/trait_box_disabled"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+</RelativeLayout>

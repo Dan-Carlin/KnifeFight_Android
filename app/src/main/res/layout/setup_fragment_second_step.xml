@@ -4,26 +4,188 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/fragment_padding"
     tools:context=".ui.setup.secondstep.SetupSecondStepFragment">
 
     <TextView
-        android:id="@+id/text_title_second_step"
+        android:id="@+id/text_gang_name_setup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Second Step"
-        app:layout_constraintBottom_toTopOf="@+id/button_next_step_setup"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center_horizontal"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Gang Name" />
 
-    <Button
-        android:id="@+id/button_next_step_setup"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next Step"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title_second_step" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/text_second_step_title"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/text_second_step_instructions_info"
+            android:textSize="20sp" />
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_margin"
+            app:columnCount="6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chooseYourColorLabelText"
+            app:rowCount="2">
+
+            <ImageButton
+                android:id="@+id/gang_red_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_red_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_blue_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_blue_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_green_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_green_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_orange_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_orange_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_purple_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_purple_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_cyan_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_cyan_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_white_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_white_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_black_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_black_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_brown_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_brown_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_yellow_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_yellow_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_pink_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_pink_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+            <ImageButton
+                android:id="@+id/gang_dark_green_button"
+                android:layout_width="@dimen/color_square"
+                android:layout_height="@dimen/color_square"
+                android:layout_margin="@dimen/color_margin"
+                android:background="@drawable/gang_dark_green_button"
+                app:layout_columnSpan="1"
+                app:layout_rowSpan="1" />
+
+        </androidx.gridlayout.widget.GridLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_previous_step_setup"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="@string/button_previous_step_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_next_step_setup"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_next_step_setup"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:enabled="false"
+        android:text="@string/button_next_step_label"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_previous_step_setup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

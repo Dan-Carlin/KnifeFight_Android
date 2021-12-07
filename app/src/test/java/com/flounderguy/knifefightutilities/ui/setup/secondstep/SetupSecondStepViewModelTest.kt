@@ -33,7 +33,7 @@ class SetupSecondStepViewModelTest {
     @Test
     fun `user input saves Color in SavedStateHandle`() {
         // Given
-        val gangColor = Gang.GangColor.BLACK
+        val gangColor = Gang.Color.BLACK
 
         // When
         secondStepViewModel.gangColor = gangColor
