@@ -83,7 +83,7 @@ class SetupThirdStepViewModel @Inject constructor(
                 val newGang =
                     Gang(gangName, gangColor, gangTrait, isUser = true, isDefeated = false)
                 state.set("gang", newGang)
-                createUserGang(newGang)
+                repository.insertGang(newGang)
                 thirdStepEventChannel.send(ThirdStepEvent.NavigateToFinalStepScreen(newGang))
             }
         }
@@ -91,14 +91,6 @@ class SetupThirdStepViewModel @Inject constructor(
 
     fun setUserTrait(trait: CharacterTrait) {
         gangTrait = enumValueOf(trait.name.uppercase().replace('-', '_'))
-    }
-
-    /**
-     * Private functions
-     */
-    // This stores the user Gang in the database.
-    private fun createUserGang(gang: Gang) = viewModelScope.launch {
-        repository.insertGang(gang)
     }
 
     /**

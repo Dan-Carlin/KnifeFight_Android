@@ -7,18 +7,15 @@
     android:padding="@dimen/fragment_padding"
     tools:context=".ui.setup.thirdstep.SetupThirdStepFragment">
 
-    <TextView
-        android:id="@+id/text_gang_name_setup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center_horizontal"
-        android:textSize="40sp"
+    <LinearLayout
+        android:id="@+id/setup_gang_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Gang Name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,14 +42,12 @@
             android:text="@string/text_third_step_instructions_info"
             android:textSize="20sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_third_step"
+        <com.flounderguy.knifefightutilities.util.RadioGridGroup
+            android:id="@+id/character_trait_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="5"
-            tools:itemCount="22"
-            tools:listitem="@layout/item_character_trait" />
+            app:columnCount="5"
+            app:rowCount="5" />
 
     </LinearLayout>
 

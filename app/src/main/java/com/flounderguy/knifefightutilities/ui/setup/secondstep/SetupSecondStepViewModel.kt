@@ -1,11 +1,13 @@
 package com.flounderguy.knifefightutilities.ui.setup.secondstep
 
 import androidx.lifecycle.*
-import com.flounderguy.knifefightutilities.data.Gang
+import com.flounderguy.knifefightutilities.data.Gang.Color
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.*
+import java.util.EnumSet.allOf
 import javax.inject.Inject
 
 /**
@@ -35,12 +37,15 @@ class SetupSecondStepViewModel @Inject constructor(
     val colorIsSelected: LiveData<Boolean>
         get() = _colorIsSelected
 
+    private val _colorArray = MutableLiveData(Color.values())
+    val colorArray: LiveData<Array<Color>>
+        get() = _colorArray
 
-    var gangColor = state.get<Gang.Color>("color") ?: Gang.Color.NONE
+    var gangColor = state.get<Color>("color") ?: Color.NONE
         set(value) {
             field = value
             state.set("color", value)
-            if (value != Gang.Color.NONE) {
+            if (value != Color.NONE) {
                 _colorIsSelected.value = true
             }
         }
@@ -77,7 +82,7 @@ class SetupSecondStepViewModel @Inject constructor(
     // This creates a list of events that must be implemented at some point.
     sealed class SecondStepEvent {
         object NavigateBackToFirstStep : SecondStepEvent()
-        data class NavigateToThirdStepScreen(val name: String, val color: Gang.Color) :
+        data class NavigateToThirdStepScreen(val name: String, val color: Color) :
             SecondStepEvent()
     }
 }

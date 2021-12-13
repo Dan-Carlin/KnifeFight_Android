@@ -29,6 +29,10 @@ class SetupFinalStepViewModel @Inject constructor(
      * User gang variables
      */
     // This creates variables to hold the user gang values.
+    private val _rivalsAreSelected = MutableLiveData(false)
+    val rivalsAreSelected: LiveData<Boolean>
+        get() = _rivalsAreSelected
+
     private var userGang = state.get<Gang>("gang")
 
     private val _userGangName = MutableLiveData(userGang?.name)
@@ -91,17 +95,18 @@ class SetupFinalStepViewModel @Inject constructor(
      * Select/deselect function for character trait buttons
      */
     // This adds the trait to the rivalGangTraits list if it is selected and removes it when deselected.
-    fun onTraitSelected(trait: CharacterTrait, isSelected: Boolean) {
+    fun onTraitSelected(trait: CharacterTrait) {
         val traitLabel = enumValueOf<Gang.Trait>(trait.name.uppercase().replace('-','_'))
-        if (isSelected) {
-            rivalGangTraits.add(traitLabel)
-        } else {
+        if (rivalGangTraits.contains(traitLabel)) {
             rivalGangTraits.remove(traitLabel)
+        } else {
+            rivalGangTraits.add(traitLabel)
         }
+        _rivalsAreSelected.value = rivalGangTraits.isNotEmpty()
     }
 
     fun isUserTrait(trait: CharacterTrait): Boolean {
-        return traitData?.value?.name == trait.name
+        return userGangTrait.value?.asString == trait.name
     }
 
     /**

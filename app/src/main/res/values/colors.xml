@@ -9,18 +9,46 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!--Gang colors-->
-    <color name="gang_red">#FFFB0202</color>
-    <color name="gang_blue">#FF073CC5</color>
-    <color name="gang_green">#FF46EA27</color>
-    <color name="gang_orange">#FFF77902</color>
-    <color name="gang_purple">#FFB006CA</color>
-    <color name="gang_cyan">#FF09DAE7</color>
-    <color name="gang_white">#FFEEEEEE</color>
-    <color name="gang_black">#FF131313</color>
-    <color name="gang_brown">#FF6B3223</color>
-    <color name="gang_yellow">#FFF2F91D</color>
-    <color name="gang_pink">#FFF91D9B</color>
-    <color name="gang_dark_green">#FF1D4D19</color>
+    <!--Gang_colors_Regular-->
+    <color name="gang_red">#FFC80707</color>
+    <color name="gang_blue">#FF0641DC</color>
+    <color name="gang_green">#FF26C509</color>
+    <color name="gang_orange">#FFF75802</color>
+    <color name="gang_purple">#FF8F08E3</color>
+    <color name="gang_cyan">#FF09B1BC</color>
+    <color name="gang_white">#FFCDCDCD</color>
+    <color name="gang_black">#FF222222</color>
+    <color name="gang_brown">#FF7A3827</color>
+    <color name="gang_yellow">#FFBDCF25</color>
+    <color name="gang_pink">#FFE4497A</color>
+    <color name="gang_gold">#FFC89615</color>
+
+    <!--Gang_colors_Light-->
+    <color name="gang_light_red">#FFFF4E4E</color>
+    <color name="gang_light_blue">#FF4E7EFA</color>
+    <color name="gang_light_green">#FF89FB74</color>
+    <color name="gang_light_orange">#FFFF9F6B</color>
+    <color name="gang_light_purple">#FFBD54FF</color>
+    <color name="gang_light_cyan">#FF63F5FF</color>
+    <color name="gang_light_white">#FFFFFFFF</color>
+    <color name="gang_light_black">#FF4C4C4C</color>
+    <color name="gang_light_brown">#FFC86F58</color>
+    <color name="gang_light_yellow">#FFE9F67C</color>
+    <color name="gang_light_pink">#FFFFAFC8</color>
+    <color name="gang_light_gold">#FFFFD463</color>
+
+    <!--Gang_colors_Dark-->
+    <color name="gang_dark_red">#FF550303</color>
+    <color name="gang_dark_blue">#FF041E61</color>
+    <color name="gang_dark_green">#FF136105</color>
+    <color name="gang_dark_orange">#FF6E2701</color>
+    <color name="gang_dark_purple">#FF45046E</color>
+    <color name="gang_dark_cyan">#FF033E42</color>
+    <color name="gang_dark_white">#FF535353</color>
+    <color name="gang_dark_black">#FF090909</color>
+    <color name="gang_dark_brown">#FF2E1610</color>
+    <color name="gang_dark_yellow">#FF4E550F</color>
+    <color name="gang_dark_pink">#FF611F34</color>
+    <color name="gang_dark_gold">#FF533E08</color>
 
 </resources>

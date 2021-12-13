@@ -7,18 +7,15 @@
     android:padding="@dimen/fragment_padding"
     tools:context=".ui.setup.secondstep.SetupSecondStepFragment">
 
-    <TextView
-        android:id="@+id/text_gang_name_setup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center_horizontal"
-        android:textSize="40sp"
+    <LinearLayout
+        android:id="@+id/setup_gang_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Gang Name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,6 +43,7 @@
             android:textSize="20sp" />
 
         <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/color_grid_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_margin"
@@ -53,117 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chooseYourColorLabelText"
-            app:rowCount="2">
-
-            <ImageButton
-                android:id="@+id/gang_red_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_red_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_blue_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_blue_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_green_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_green_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_orange_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_orange_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_purple_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_purple_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_cyan_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_cyan_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_white_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_white_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_black_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_black_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_brown_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_brown_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_yellow_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_yellow_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_pink_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_pink_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-            <ImageButton
-                android:id="@+id/gang_dark_green_button"
-                android:layout_width="@dimen/color_square"
-                android:layout_height="@dimen/color_square"
-                android:layout_margin="@dimen/color_margin"
-                android:background="@drawable/gang_dark_green_button"
-                app:layout_columnSpan="1"
-                app:layout_rowSpan="1" />
-
-        </androidx.gridlayout.widget.GridLayout>
+            app:rowCount="2" />
 
     </LinearLayout>
 
