@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Layout for SetupFirstStepFragment, fragment for choosing the gang name.-->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +9,16 @@
     android:layout_height="match_parent"
     android:padding="@dimen/fragment_padding"
     tools:context=".ui.setup.firststep.SetupFirstStepFragment">
+
+    <LinearLayout
+        android:id="@+id/setup_gang_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,12 +49,13 @@
             android:id="@+id/edit_gang_name_setup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLength="27"
             android:ems="12"
             android:gravity="center_horizontal"
             android:hint="@string/text_name_your_gang_hint"
+            android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="text"
+            android:maxLength="27"
             android:maxLines="1"
             android:textSize="24sp" />
 

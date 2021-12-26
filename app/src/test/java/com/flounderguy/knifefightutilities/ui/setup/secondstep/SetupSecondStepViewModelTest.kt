@@ -1,14 +1,18 @@
 package com.flounderguy.knifefightutilities.ui.setup.secondstep
 
-import androidx.lifecycle.SavedStateHandle
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.flounderguy.knifefightutilities.data.Gang
-import io.mockk.mockk
-import io.mockk.verify
+import com.flounderguy.knifefightutilities.data.KnifeFightRepository
+import io.mockk.*
 import kotlinx.coroutines.Dispatchers
+import com.google.common.truth.Truth.assertThat
+import junit.framework.Assert.assertTrue
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -16,30 +20,73 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class SetupSecondStepViewModelTest {
 
-    private val dispatcher = TestCoroutineDispatcher()
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
 
+    private val dispatcher = TestCoroutineDispatcher()
     private lateinit var secondStepViewModel: SetupSecondStepViewModel
-    private lateinit var state: SavedStateHandle
+
+    private val testGang = Gang(
+        name = "Test Gang",
+        color = Gang.Color.BLACK,
+        trait = Gang.Trait.FIERCE,
+        isUser = true,
+        isDefeated = false,
+        id = 0
+    )
+
+    private val testGangFlow = flowOf(testGang)
+
+    private val repository = mockk<KnifeFightRepository> {
+        coEvery { getUserGang() } returns testGangFlow
+        coEvery { userGangExists() } returns true
+        coEvery { updateGang(any()) } just runs
+    }
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
 
-        state = mockk<SavedStateHandle>(relaxed = true)
-
-        secondStepViewModel = SetupSecondStepViewModel(state)
+        secondStepViewModel = SetupSecondStepViewModel(repository)
     }
 
     @Test
-    fun `user input saves Color in SavedStateHandle`() {
-        // Given
-        val gangColor = Gang.Color.BLACK
-
+    fun `values from flow successfully stored when onSecondStepStarted()`() = runBlockingTest {
         // When
-        secondStepViewModel.gangColor = gangColor
+        secondStepViewModel.onSecondStepStarted()
 
         // Then
-        assertEquals(gangColor, secondStepViewModel.gangColor)
-        verify{ state.set("color", gangColor) }
+        assertThat(secondStepViewModel.gangColor).isEqualTo(testGang.color)
+        // and
+        assertThat(secondStepViewModel.gangTrait).isEqualTo(testGang.trait)
+    }
+
+    @Test
+    fun `colorIsSelected set to true when gangColor value is set`() {
+        // Given
+        val testColor = Gang.Color.BLUE
+
+        // When
+        secondStepViewModel.gangColor = testColor
+
+        // Then
+        secondStepViewModel.colorIsSelected.value?.let { assertTrue(it) }
+    }
+
+    @Test
+    fun `onSecondStepCompleted() updates Gang with correct color value`() = runBlockingTest {
+        // Given
+        val testColor = Gang.Color.RED
+        val updatedGang = testGang.copy(color = testColor)
+
+        // When
+        secondStepViewModel.onSecondStepStarted()
+        // and
+        secondStepViewModel.gangColor = testColor
+        // and
+        secondStepViewModel.onSecondStepCompleted()
+
+        // Then
+        coVerify { repository.updateGang(updatedGang) }
     }
 }

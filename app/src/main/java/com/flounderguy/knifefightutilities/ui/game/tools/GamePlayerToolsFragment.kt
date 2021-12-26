@@ -1,7 +1,10 @@
 package com.flounderguy.knifefightutilities.ui.game.tools
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +20,16 @@ import kotlinx.coroutines.flow.collect
 class GamePlayerToolsFragment : Fragment(R.layout.game_fragment_player_tools) {
 
     private val gameToolsViewModel: GamePlayerToolsViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,9 +47,6 @@ class GamePlayerToolsFragment : Fragment(R.layout.game_fragment_player_tools) {
             }
             buttonCharacterInfoTools.setOnClickListener {
                 gameToolsViewModel.onCharacterInfoClicked()
-            }
-            buttonEditGangTools.setOnClickListener {
-                gameToolsViewModel.onEditGangClicked()
             }
             buttonSettingsTools.setOnClickListener {
                 gameToolsViewModel.onSettingsClicked()

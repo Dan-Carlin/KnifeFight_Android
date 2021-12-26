@@ -9,12 +9,12 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "gang_table")
 @Parcelize
 data class Gang(
-    val name: String?,
+    val name: String,
     val color: Color?,
-    val trait: Trait,
+    val trait: Trait?,
     val isUser: Boolean,
     val isDefeated: Boolean,
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 ) : Parcelable {
 
@@ -67,7 +67,7 @@ data class Gang(
         AGGRESSIVE("Aggressive"),
         ADVENTUROUS("Adventurous"),
         LOW_KEY("Low-Key"),
-        NONE("")
+        NONE("None")
     }
 }
 

@@ -24,7 +24,6 @@ class KnifeFightHomeViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private val dispatcher = TestCoroutineDispatcher()
-
     private lateinit var homeViewModel: KnifeFightHomeViewModel
     private lateinit var repository: KnifeFightRepository
     private lateinit var state: SavedStateHandle
@@ -35,7 +34,7 @@ class KnifeFightHomeViewModelTest {
 
         repository = mockk {
             coEvery { clearGangs() } just runs
-            coEvery { userGangExists() } returns true
+            coEvery { rivalGangsExist() } returns true
         }
         state = mockk(relaxed = true)
 
@@ -44,8 +43,6 @@ class KnifeFightHomeViewModelTest {
 
     @Test
     fun `onNewGameStarted verifies existing game when activeGame is true`() = runBlockingTest {
-        // Given
-
         // When
         homeViewModel.onNewGameStarted()
 
@@ -58,8 +55,6 @@ class KnifeFightHomeViewModelTest {
 
     @Test
     fun `onNewGameStarted navigates to first step when activeGame is false`() = runBlockingTest {
-        // Given
-
         // When
         homeViewModel.onNewGameStarted()
 

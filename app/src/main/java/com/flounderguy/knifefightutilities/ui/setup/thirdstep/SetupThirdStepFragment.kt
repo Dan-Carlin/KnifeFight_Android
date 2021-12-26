@@ -1,51 +1,95 @@
 package com.flounderguy.knifefightutilities.ui.setup.thirdstep
 
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.RadioButton
-import androidx.core.content.ContextCompat
-import androidx.core.view.iterator
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.flounderguy.knifefightutilities.R
 import com.flounderguy.knifefightutilities.data.CharacterTrait
-import com.flounderguy.knifefightutilities.databinding.ItemCharacterTraitButtonBinding
-import com.flounderguy.knifefightutilities.databinding.ItemGangNameDisplayBinding
 import com.flounderguy.knifefightutilities.databinding.SetupFragmentThirdStepBinding
+import com.flounderguy.knifefightutilities.ui.setup.TraitRoster
+import com.flounderguy.knifefightutilities.ui.shared.GangDisplayFragment
+import com.flounderguy.knifefightutilities.util.convertTraitToLabel
 import com.flounderguy.knifefightutilities.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
-
+/**
+ * SetupThirdStepFragment is the third screen for setting up a new game.
+ * This fragment is in charge of:
+ *      - Taking input from the user for selecting a gang trait.
+ *      - Changing the state of the trait buttons to reflect the current stored value if a user
+ *          navigates back to change it.
+ *      - Blocking navigation to next step until a trait is chosen.
+ */
 @AndroidEntryPoint
-class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step) {
+class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
+    TraitRoster.OnItemClickListener {
 
+    /**
+     * Variables
+     */
+    // This creates an instance of the viewModel for this fragment.
     private val thirdStepViewModel: SetupThirdStepViewModel by viewModels()
 
+    // This creates the gang display sub fragment for this screen.
+    private lateinit var gangDisplayFragment: GangDisplayFragment
+
+    /**
+     * Lifecycle methods
+     */
+    // This executes all the code that should run before returning the view.
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // GangDisplayFragment initialization
+        gangDisplayFragment = GangDisplayFragment()
+        val displayFragmentManager = parentFragmentManager
+        val fragmentTransaction: FragmentTransaction = displayFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.setup_gang_name_layout, gangDisplayFragment)
+            .addToBackStack(null)
+        fragmentTransaction.commit()
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    // This executes all the code that should run after creating the view.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // ViewBinding variable
         val thirdStepBinding = SetupFragmentThirdStepBinding.bind(view)
 
-        val gangNameDisplay = layoutInflater.inflate(
-            R.layout.item_gang_name_display,
-            thirdStepBinding.setupGangNameLayout,
-            false
-        )
+        // Instance of TraitRoster class
+        val traitRoster = TraitRoster(this)
 
-        val gangNameBinding = ItemGangNameDisplayBinding.bind(gangNameDisplay)
+        // UI initialization and ViewModel interaction
+        thirdStepViewModel.apply {
+            traitIsSelected.observe(viewLifecycleOwner) {
+                thirdStepBinding.buttonNextStepSetup.isEnabled = it
+            }
 
-        setGangNameDisplay(gangNameBinding)
+            traitList.observe(viewLifecycleOwner) { traits ->
+                context?.let {
+                    traitRoster.createTraitRoster(
+                        context = it,
+                        radioGroup = thirdStepBinding.characterTraitGroup,
+                        traitList = traits,
+                        userTrait = null
+                    )
+                }
+            }
+        }
 
+        // Button actions
         thirdStepBinding.apply {
-            setupGangNameLayout.addView(gangNameDisplay)
-
             buttonPreviousStepSetup.setOnClickListener {
                 thirdStepViewModel.onPreviousStepButtonClicked()
             }
@@ -55,42 +99,7 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step) {
             }
         }
 
-        thirdStepViewModel.apply {
-            traitIsSelected.observe(viewLifecycleOwner) {
-                thirdStepBinding.buttonNextStepSetup.isEnabled = it
-            }
-
-            traitList.observe(viewLifecycleOwner) {
-                var traitItemBinding: ItemCharacterTraitButtonBinding
-
-                for (i in it.indices) {
-                    val characterTrait = layoutInflater.inflate(
-                        R.layout.item_character_trait_button,
-                        thirdStepBinding.characterTraitGroup,
-                        false
-                    )
-
-                    traitItemBinding = ItemCharacterTraitButtonBinding.bind(characterTrait)
-
-                    val currentTrait = it[i]
-
-                    traitItemBinding.apply {
-                        buttonUserTraitSelect.apply {
-                            setOnClickListener {
-                                setGangTrait(currentTrait, gangNameBinding)
-                                val traitName = textTraitLabel.text as String
-                                deselectAllOtherTraits(traitName, thirdStepBinding)
-                            }
-                        }
-                    }
-
-                    populateTraitRoster(currentTrait, traitItemBinding)
-
-                    thirdStepBinding.characterTraitGroup.addView(characterTrait, i)
-                }
-            }
-        }
-
+        // Event channel implementation
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             thirdStepViewModel.thirdStepEvent.collect { event ->
                 when (event) {
@@ -99,9 +108,7 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step) {
                     }
                     is SetupThirdStepViewModel.ThirdStepEvent.NavigateToFinalStepScreen -> {
                         val actionThirdStepToFinalStep =
-                            SetupThirdStepFragmentDirections.actionSetupThirdStepFragmentToSetupFinalStepFragment(
-                                event.gang
-                            )
+                            SetupThirdStepFragmentDirections.actionSetupThirdStepFragmentToSetupFinalStepFragment()
                         findNavController().navigate(actionThirdStepToFinalStep)
                     }
                 }.exhaustive
@@ -109,116 +116,24 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step) {
         }
     }
 
-    private fun setGangNameDisplay(gangNameBinding: ItemGangNameDisplayBinding) {
-        gangNameBinding.apply {
-            textGangNameOutline.apply {
-                text = thirdStepViewModel.gangName
-                thirdStepViewModel.gangColor?.let {
-                    setTextColor(
-                        ContextCompat.getColor(
-                            context,
-                            it.outerStrokeValue
-                        )
-                    )
-
-                    setStroke(
-                        width = 24F,
-                        color = ContextCompat.getColor(context, it.outerStrokeValue),
-                        join = Paint.Join.MITER,
-                        miter = 0F
-                    )
-                }
-            }
-
-            textGangNameFill.apply {
-                text = thirdStepViewModel.gangName
-                thirdStepViewModel.gangColor?.let {
-                    setTextColor(
-                        ContextCompat.getColor(
-                            context,
-                            it.normalColorValue
-                        )
-                    )
-
-                    setStroke(
-                        width = 6F,
-                        color = ContextCompat.getColor(context, it.innerStrokeValue),
-                        join = Paint.Join.MITER,
-                        miter = 0F
-                    )
-                }
-            }
-        }
+    // This executes the code that should run every time the fragment is entered.
+    override fun onStart() {
+        super.onStart()
+        thirdStepViewModel.onThirdStepStarted()
     }
 
-    private fun populateTraitRoster(
-        trait: CharacterTrait,
-        binding: ItemCharacterTraitButtonBinding
-    ) {
-        binding.apply {
-            textTraitLabel.text = trait.name
-
-            val iconDrawable = getTraitDrawable(trait)
-            iconDrawable?.setTint(Color.DKGRAY)
-
-            imageTraitThumb.setImageDrawable(iconDrawable)
-        }
-    }
-
-    private fun setGangTrait(
-        trait: CharacterTrait,
-        gangNameBinding: ItemGangNameDisplayBinding
-    ) {
-        val gangDescription = "(The " + trait.name.lowercase() + " ones)"
-
-        val backgroundDrawable = getTraitDrawable(trait)
-        val userColor = thirdStepViewModel.gangColor
-        if (userColor != null) {
-            context?.let {
-                backgroundDrawable?.setTint(
-                    ContextCompat.getColor(
-                        it,
-                        userColor.darkColorValue
-                    )
-                )
-            }
-        }
-
-        gangNameBinding.apply {
-            textGangDescription.apply {
-                visibility = View.VISIBLE
-                text = gangDescription
-            }
-
-            imageTraitSymbolBackground.apply {
-                visibility = View.VISIBLE
-                setImageDrawable(backgroundDrawable)
-            }
-        }
-
+    /**
+     * Override methods
+     */
+    // Implementation of the methods in the TraitRoster click listener interface.
+    override fun onTraitClick(view: View, trait: CharacterTrait) {
         thirdStepViewModel.setUserTrait(trait)
+
+        val traitLabel = convertTraitToLabel(trait)
+        gangDisplayFragment.setTraitDisplay(traitLabel, thirdStepViewModel.gangColor)
     }
 
-    private fun getTraitDrawable(trait: CharacterTrait): Drawable? {
-        val traitString = "ic_trait_symbol_" + trait.name.lowercase().replace('-', '_')
-        val iconResourceId = resources.getIdentifier(
-            traitString, "drawable",
-            activity?.packageName
-        )
-
-        return context?.let { ContextCompat.getDrawable(it, iconResourceId) }
-    }
-
-    private fun deselectAllOtherTraits(
-        traitName: String,
-        thirdStepBinding: SetupFragmentThirdStepBinding
-    ) {
-        val traitGroup = thirdStepBinding.characterTraitGroup
-
-        for (trait in traitGroup) {
-            val traitItemBinding = ItemCharacterTraitButtonBinding.bind(trait)
-            val currentName = traitItemBinding.textTraitLabel.text as String
-            traitItemBinding.buttonUserTraitSelect.isChecked = traitName == currentName
-        }
+    override fun isUserTrait(trait: CharacterTrait): Boolean {
+        return false
     }
 }

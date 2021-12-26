@@ -1,23 +1,18 @@
 package com.flounderguy.knifefightutilities.ui.setup.thirdstep
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.SavedStateHandle
-import app.cash.turbine.test
-import com.flounderguy.knifefightutilities.TestCoroutineRule
 import com.flounderguy.knifefightutilities.data.CharacterTrait
 import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
+import com.google.common.truth.Truth.assertThat
 import io.mockk.*
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,49 +26,86 @@ class SetupThirdStepViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private val dispatcher = TestCoroutineDispatcher()
-    private val testScope = TestCoroutineScope(dispatcher)
-
-    private val gangName = "The Homies"
-    private val gangColor = Gang.Color.BLACK
-    private val gangTrait = Gang.Trait.ADVENTUROUS
-    private val newGang = Gang(gangName, gangColor, gangTrait, isUser = true, isDefeated = false)
-    private val traitList = mockk<Flow<List<CharacterTrait>>>()
-
     private lateinit var thirdStepViewModel: SetupThirdStepViewModel
-    private lateinit var repository: KnifeFightRepository
-    private lateinit var state: SavedStateHandle
+
+    private val testGang = Gang(
+        name = "Test Gang",
+        color = Gang.Color.BLACK,
+        trait = Gang.Trait.FIERCE,
+        isUser = true,
+        isDefeated = false,
+        id = 0
+    )
+
+    private val testGangFlow = flowOf(testGang)
+    private val testTraitList = mockk<Flow<List<CharacterTrait>>>()
+
+    private val repository = mockk<KnifeFightRepository> {
+        coEvery { getUserGang() } returns testGangFlow
+        coEvery { getTraitList() } returns testTraitList
+        coEvery { userGangExists() } returns true
+        coEvery { updateGang(any()) } just runs
+    }
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
 
-        repository = mockk {
-            coEvery { updateGang(any()) } just runs
-            coEvery { getTraitList() } returns traitList
-            coEvery { insertGang(any()) } just runs
-        }
-        state = mockk(relaxed = true) {
-            every { get<Gang>("gang") } returns newGang
-            every { get<String>("name") } returns gangName
-            every { get<Gang.Color>("color") } returns gangColor
-        }
-
-        testScope.launch { thirdStepViewModel = SetupThirdStepViewModel(repository, state) }
+        thirdStepViewModel = SetupThirdStepViewModel(repository)
     }
 
     @Test
-    fun `update gang and navigate when onSetupCompleted`() = testScope.runBlockingTest {
-        // Given
-        thirdStepViewModel.gangTrait = gangTrait
-
+    fun `values from flow successfully stored when onThirdStepStarted()`() = runBlockingTest {
         // When
-        testScope.launch { thirdStepViewModel.onThirdStepCompleted() }
+        thirdStepViewModel.onThirdStepStarted()
 
         // Then
-        coVerify { repository.updateGang(newGang) }
-        assertEquals(
-            SetupThirdStepViewModel.ThirdStepEvent.NavigateToFinalStepScreen(newGang),
-            thirdStepViewModel.thirdStepEvent.first()
-        )
+        assertThat(thirdStepViewModel.gangColor).isEqualTo(testGang.color)
+        // and
+        assertThat(thirdStepViewModel.gangTrait).isEqualTo(testGang.trait)
+    }
+
+    @Test
+    fun `CharacterTrait is successfully converted to Trait enum when setUserTrait()`() = runBlockingTest {
+        // Given
+        val testTrait = Gang.Trait.LUCKY
+        val testCharacterTrait = mockk<CharacterTrait>()
+
+        // When
+        coEvery { testCharacterTrait.name } returns "Lucky"
+        // and
+        thirdStepViewModel.setUserTrait(testCharacterTrait)
+
+        // Then
+        assertThat(thirdStepViewModel.gangTrait).isEqualTo(testTrait)
+    }
+
+    @Test
+    fun `traitIsSelected set to true when gangTrait value is set`() {
+        // Given
+        val testTrait = Gang.Trait.BRASH
+
+        // When
+        thirdStepViewModel.gangTrait = testTrait
+
+        // Then
+        thirdStepViewModel.traitIsSelected.value?.let { assertTrue(it) }
+    }
+
+    @Test
+    fun `onThirdStepCompleted() updates Gang with correct trait value`() = runBlockingTest {
+        // Given
+        val testTrait = Gang.Trait.EAGER
+        val updatedGang = testGang.copy(trait = testTrait)
+
+        // When
+        thirdStepViewModel.onThirdStepStarted()
+        // and
+        thirdStepViewModel.gangTrait = testTrait
+        // and
+        thirdStepViewModel.onThirdStepCompleted()
+
+        // Then
+        coVerify { repository.updateGang(updatedGang) }
     }
 }

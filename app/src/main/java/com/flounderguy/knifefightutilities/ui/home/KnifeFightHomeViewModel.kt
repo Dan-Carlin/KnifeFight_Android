@@ -22,29 +22,29 @@ class KnifeFightHomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     /**
-     * Variable to hold status for an active game
+     * Game state variable
      */
-    // This creates a variable to keep track of an active game state and sets it to a false value.
+    // This variable keeps track of whether or not there is an active game in storage.
     private val _activeGame = MutableLiveData(false)
     val activeGame: LiveData<Boolean>
         get() = _activeGame
 
-    // This method call updates _activeGame to true if there is a user Gang object in the database.
+    // This method call updates _activeGame to true if there are rival Gang objects in the database.
     init {
         checkIfActiveGameExists()
     }
 
     /**
-     * Event channel for HomeEvents
+     * Event channel variables
      */
-    // This creates a channel for all events associated with this ViewModel's corresponding fragment.
+    // These variables create a flow channel of the objects in the HomeEvent class.
     private val homeEventChannel = Channel<HomeEvent>()
     val homeEvent = homeEventChannel.receiveAsFlow()
 
     /**
-     * Event functions for the Home fragment
+     * Action methods
      */
-    // This creates functions that can be called from the fragment to execute each event.
+    // These are the action methods for buttons in the HomeFragment UI.
     fun onContinueGameClicked() = viewModelScope.launch {
         homeEventChannel.send(HomeEvent.NavigateToGameToolsScreen)
     }
@@ -71,10 +71,9 @@ class KnifeFightHomeViewModel @Inject constructor(
     }
 
     /**
-     * Private functions
+     * Private methods
      */
-    // This is the method called when the ViewModel is initialized in order to update the _activeGame
-    // variable.
+    // This method updates the game state if there are rival Gang objects in the database.
     private fun checkIfActiveGameExists() = viewModelScope.launch {
         if (repository.rivalGangsExist()) {
             _activeGame.value = true

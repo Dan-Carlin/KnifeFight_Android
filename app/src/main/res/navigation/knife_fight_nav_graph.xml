@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Knife Fight navigation graph-->
+
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/knife_fight_nav_graph"
     app:startDestination="@id/knifeFightHomeFragment">
+
+<!--Home-->
 
     <fragment
         android:id="@+id/knifeFightHomeFragment"
@@ -23,18 +28,23 @@
             android:id="@+id/action_knifeFightHomeFragment_to_gamePlayerToolsFragment"
             app:destination="@id/gamePlayerToolsFragment" />
         <action
+            android:id="@+id/action_knifeFightHomeFragment_to_setupFirstStepFragment2"
+            app:destination="@id/setupFirstStepFragment" />
+        <action
             android:id="@+id/action_knifeFightHomeFragment_to_homeConfirmNewGameDialogFragment"
             app:destination="@id/homeConfirmNewGameDialogFragment" />
     </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/homeConfirmNewGameDialogFragment"
         android:name="com.flounderguy.knifefightutilities.ui.home.confirmnewgame.HomeConfirmNewGameDialogFragment"
         android:label="HomeConfirmNewGameDialogFragment">
         <action
             android:id="@+id/action_homeConfirmNewGameDialogFragment_to_setupFirstStepFragment"
             app:destination="@id/setupFirstStepFragment" />
-    </fragment>
+    </dialog>
+
+<!--Setup-->
 
     <fragment
         android:id="@+id/setupFirstStepFragment"
@@ -43,7 +53,11 @@
         tools:layout="@layout/setup_fragment_first_step">
         <action
             android:id="@+id/action_setupFirstStepFragment_to_setupSecondStepFragment"
-            app:destination="@id/setupSecondStepFragment" />
+            app:destination="@id/setupSecondStepFragment"
+            app:enterAnim="@transition/slide_in_right"
+            app:exitAnim="@transition/slide_out_left"
+            app:popEnterAnim="@transition/slide_in_left"
+            app:popExitAnim="@transition/slide_out_right" />
     </fragment>
 
     <fragment
@@ -53,10 +67,11 @@
         tools:layout="@layout/setup_fragment_second_step">
         <action
             android:id="@+id/action_setupSecondStepFragment_to_setupThirdStepFragment"
-            app:destination="@id/setupThirdStepFragment" />
-        <argument
-            android:name="name"
-            app:argType="string" />
+            app:destination="@id/setupThirdStepFragment"
+            app:enterAnim="@transition/slide_in_right"
+            app:exitAnim="@transition/slide_out_left"
+            app:popEnterAnim="@transition/slide_in_left"
+            app:popExitAnim="@transition/slide_out_right" />
     </fragment>
 
 
@@ -65,17 +80,13 @@
         android:name="com.flounderguy.knifefightutilities.ui.setup.thirdstep.SetupThirdStepFragment"
         android:label="Knife Fight - Setup - Third Step"
         tools:layout="@layout/setup_fragment_third_step">
-        <argument
-            android:name="name"
-            android:defaultValue=""
-            app:argType="string" />
-        <argument
-            android:name="color"
-            android:defaultValue="NONE"
-            app:argType="com.flounderguy.knifefightutilities.data.Gang$Color" />
         <action
             android:id="@+id/action_setupThirdStepFragment_to_setupFinalStepFragment"
-            app:destination="@id/setupFinalStepFragment" />
+            app:destination="@id/setupFinalStepFragment"
+            app:enterAnim="@transition/slide_in_right"
+            app:exitAnim="@transition/slide_out_left"
+            app:popEnterAnim="@transition/slide_in_left"
+            app:popExitAnim="@transition/slide_out_right" />
     </fragment>
 
     <fragment
@@ -87,10 +98,9 @@
             android:id="@+id/action_setupFinalStepFragment_to_gamePlayerToolsFragment"
             app:destination="@id/gamePlayerToolsFragment"
             app:popUpTo="@id/knifeFightHomeFragment" />
-        <argument
-            android:name="gang"
-            app:argType="com.flounderguy.knifefightutilities.data.Gang" />
     </fragment>
+
+<!--Tools-->
 
     <fragment
         android:id="@+id/toolsHowToUseDialogFragment"
@@ -143,7 +153,7 @@
         android:id="@+id/toolsAttackModeDialogFragment"
         android:name="com.flounderguy.knifefightutilities.ui.game.tools.attackmode.ToolsAttackModeFragment"
         android:label="Knife Fight - Attack Mode"
-        tools:layout="@layout/tools_fragment_attack_mode" >
+        tools:layout="@layout/tools_fragment_attack_mode">
         <action
             android:id="@+id/action_toolsAttackModeDialogFragment_to_toolsRollResultsFragment"
             app:destination="@id/toolsRollResultsFragment"
@@ -154,7 +164,7 @@
         android:id="@+id/toolsCounterattackModeFragment"
         android:name="com.flounderguy.knifefightutilities.ui.game.tools.counterattackmode.ToolsCounterattackModeFragment"
         android:label="tools_fragment_counterattack_mode"
-        tools:layout="@layout/tools_fragment_counterattack_mode" >
+        tools:layout="@layout/tools_fragment_counterattack_mode">
         <action
             android:id="@+id/action_toolsCounterattackModeFragment_to_toolsRollResultsFragment"
             app:destination="@id/toolsRollResultsFragment"
@@ -165,7 +175,7 @@
         android:id="@+id/toolsRollResultsFragment"
         android:name="com.flounderguy.knifefightutilities.ui.game.tools.rollresults.ToolsRollResultsFragment"
         android:label="tools_fragment_roll_results"
-        tools:layout="@layout/tools_fragment_roll_results" >
+        tools:layout="@layout/tools_fragment_roll_results">
         <argument
             android:name="output"
             app:argType="integer" />
@@ -188,6 +198,8 @@
         android:name="com.flounderguy.knifefightutilities.ui.game.tools.editgang.ToolsEditGangFragment"
         android:label="Knife Fight - Edit Gang"
         tools:layout="@layout/tools_fragment_edit_gang" />
+
+<!--Info-->
 
     <fragment
         android:id="@+id/knifeFightInfoFragment"
@@ -223,11 +235,13 @@
         android:label="Knife Fight - Card List"
         tools:layout="@layout/info_fragment_card_list" />
 
+<!--Settings-->
+
     <fragment
         android:id="@+id/knifeFightSettingsFragment"
         android:name="com.flounderguy.knifefightutilities.ui.settings.KnifeFightSettingsFragment"
         android:label="Knife Fight - Settings"
-        tools:layout="@layout/knife_fight_fragment_settings" >
+        tools:layout="@layout/knife_fight_fragment_settings">
         <argument
             android:name="previous_page"
             app:argType="com.flounderguy.knifefightutilities.ui.settings.KnifeFightSettingsViewModel$NavigatedFrom" />

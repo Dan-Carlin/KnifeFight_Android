@@ -3,9 +3,13 @@ package com.flounderguy.knifefightutilities.ui.setup.thirdstep
 import androidx.lifecycle.*
 import com.flounderguy.knifefightutilities.data.CharacterTrait
 import com.flounderguy.knifefightutilities.data.Gang
+import com.flounderguy.knifefightutilities.data.Gang.Color
+import com.flounderguy.knifefightutilities.data.Gang.Trait
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
+import com.flounderguy.knifefightutilities.util.convertTraitToLabel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,78 +23,88 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SetupThirdStepViewModel @Inject constructor(
-    private val repository: KnifeFightRepository,
-    private val state: SavedStateHandle
+    private val repository: KnifeFightRepository
 ) : ViewModel() {
 
     /**
      * All values for the user Gang object
      */
-    // This fetches the values from the last two steps and creates the final one necessary for the
-    // user Gang.
-    private val _traitIsSelected = MutableLiveData(false)
-    val traitIsSelected: LiveData<Boolean>
-        get() = _traitIsSelected
+    // These variables hold the flow of user Gang data if there is a Gang object in the database.
+    private val userGangFlow = repository.getUserGang()
+    private val _userGang = MutableLiveData<Gang>()
+    val userGang: LiveData<Gang>
+        get() = _userGang
 
-    val gang = state.get<Gang>("gang")
-
-    val gangName = state.get<String>("name") ?: gang?.name
-    val gangColor = state.get<Gang.Color>("color") ?: gang?.color
-    var gangTrait = gang?.trait ?: Gang.Trait.NONE
+    // These variables hold the values emitted by userGangFlow, or default values if there are none.
+    private var gangName = userGang.value?.name ?: ""
+    var gangColor = userGang.value?.color ?: Color.NONE
+    var gangTrait = userGang.value?.trait ?: Trait.NONE
         set(value) {
             field = value
-            state.set("trait", value)
-            if (value != Gang.Trait.NONE) {
+            if (value != Trait.NONE) {
                 _traitIsSelected.value = true
             }
         }
 
     /**
-     * Trait list
+     * Trait values
      */
-    // This holds a list of all traits.
+    // This tells the fragment if a trait has been clicked.
+    private val _traitIsSelected = MutableLiveData(false)
+    val traitIsSelected: LiveData<Boolean>
+        get() = _traitIsSelected
+
+    // This holds a list of all CharacterTrait objects in the database.
     val traitList = repository.getTraitList().asLiveData()
 
     /**
-     * Event channel for ThirdStepEvents
+     * Event channel variables
      */
-    // This creates a channel for all events associated with this ViewModel's corresponding fragment.
+    // These variables create a flow channel of the objects in the ThirdStepEvent class.
     private val thirdStepEventChannel = Channel<ThirdStepEvent>()
     val thirdStepEvent = thirdStepEventChannel.receiveAsFlow()
 
     /**
-     * Event functions for the ThirdStep fragment
+     * Startup method
      */
-    // This creates functions that can be called from the fragment to execute each event.
+    // This method performs actions that are needed every time the fragment is entered.
+    fun onThirdStepStarted() = viewModelScope.launch {
+        if (repository.userGangExists()) {
+            userGangFlow.collect {
+                _userGang.value = it
+                gangName = it.name
+                gangColor = it.color!!
+                gangTrait = it.trait!!
+            }
+        }
+    }
+
+    /**
+     * Action methods
+     */
+    // These are the action methods for buttons in the ThirdStepFragment UI.
     fun onPreviousStepButtonClicked() = viewModelScope.launch {
         thirdStepEventChannel.send(ThirdStepEvent.NavigateBackToSecondStep)
     }
 
     fun onThirdStepCompleted() = viewModelScope.launch {
-        // This performs a null check on the variables from the last two steps and uses all the input
-        // gathered to create a user Gang object to store in the database.
-        if (gang != null) {
-            val updatedGang = gang.copy(
-                name = gangName,
-                color = gangColor,
-                trait = gangTrait,
-                isUser = true,
-                isDefeated = false
-            )
-            repository.updateGang(updatedGang)
-        } else {
-            if (gangName != null && gangColor != null) {
-                val newGang =
-                    Gang(gangName, gangColor, gangTrait, isUser = true, isDefeated = false)
-                state.set("gang", newGang)
-                repository.insertGang(newGang)
-                thirdStepEventChannel.send(ThirdStepEvent.NavigateToFinalStepScreen(newGang))
-            }
-        }
+        val updatedGang = userGang.value!!.copy(
+            name = gangName,
+            color = gangColor,
+            trait = gangTrait,
+            isUser = true,
+            isDefeated = false
+        )
+        repository.updateGang(updatedGang)
+        thirdStepEventChannel.send(ThirdStepEvent.NavigateToFinalStepScreen)
     }
 
+    /**
+     * Setter method
+     */
+    // This method sets the value of the trait variable by converting a CharacterTrait to a Gang.Trait enum.
     fun setUserTrait(trait: CharacterTrait) {
-        gangTrait = enumValueOf(trait.name.uppercase().replace('-', '_'))
+        gangTrait = convertTraitToLabel(trait)
     }
 
     /**
@@ -99,6 +113,6 @@ class SetupThirdStepViewModel @Inject constructor(
     // This creates a list of events that must be implemented at some point.
     sealed class ThirdStepEvent {
         object NavigateBackToSecondStep : ThirdStepEvent()
-        data class NavigateToFinalStepScreen(val gang: Gang) : ThirdStepEvent()
+        object NavigateToFinalStepScreen : ThirdStepEvent()
     }
 }

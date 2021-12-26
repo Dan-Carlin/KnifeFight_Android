@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,7 +25,6 @@ class HomeConfirmNewGameViewModel @Inject constructor(
      */
     // This creates a channel for all events associated with this ViewModel's corresponding fragment.
     private val newGameEventChannel = Channel<NewGameEvent>()
-    val newGameEvent = newGameEventChannel.receiveAsFlow()
 
     /**
      * Event functions for the NewGame dialog fragment

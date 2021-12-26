@@ -1,12 +1,13 @@
 package com.flounderguy.knifefightutilities.ui.game.tools
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
 import com.flounderguy.knifefightutilities.ui.settings.KnifeFightSettingsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,76 +18,64 @@ class GamePlayerToolsViewModel @Inject constructor(
 ) : ViewModel() {
 
     /**
-     * Variables to hold the user and rival Gang objects from the database
+     * Flows to emit values for the user and rival Gang objects from the database
      */
-    private val userGangFlow = repository.getUserGang()
-    val userGang = userGangFlow.asLiveData()
-
     // Gang object is split up into the three observable values that we can work with.
-    private val _userGangName = MutableLiveData<String>(userGang.value?.name)
-    val userGangName: LiveData<String>
-        get() = _userGangName
-
-    private val _userGangColor = MutableLiveData<Gang.Color>(userGang.value?.color)
-    val userGangColor: LiveData<Gang.Color>
-        get() = _userGangColor
-
-    private val _userGangTrait = MutableLiveData<Gang.Trait>(userGang.value?.trait)
-    val userGangTrait: LiveData<Gang.Trait>
-        get() = _userGangTrait
-
     private val rivalGangsFlow = repository.getRivalGangs()
     val rivalGangs = rivalGangsFlow.asLiveData()
 
-    /**
-     * Stat holder for the user's character trait
-     */
-    private val traitData = userGangTrait.value?.let { repository.getTraitFlow(it).asLiveData() }
+    private val userGangNameFlow = repository.getGangNameFlow()
+    val userGangName = userGangNameFlow.asLiveData()
+
+    private val userGangColorFlow = repository.getGangColorFlow()
+    val userGangColor = userGangColorFlow.asLiveData()
+
+    private val userGangTraitFlow = repository.getGangTraitFlow()
+    val userGangTrait = userGangTraitFlow.asLiveData()
+
+    private val traitList = repository.getTraitList()
 
     /**
      * Variables to hold starting HP and any additional HP that might be added on by character trait
      */
-    private val _hpCount = MutableLiveData(STARTING_HP + hpModifier.value!!)
+    private val _hpCount = MutableLiveData<Int>()
     val hpCount: LiveData<Int>
         get() = _hpCount
 
-    private val _hasModifiedHp = MutableLiveData(hpModifier.value!! != 0)
+    private val _hasModifiedHp = MutableLiveData<Boolean>()
     val hasModifiedHp: LiveData<Boolean>
         get() = _hasModifiedHp
 
-    private val _hpModifier = MutableLiveData<Int>(traitData?.value?.hp)
+    private val _hpModifier = MutableLiveData<Int>()
     val hpModifier: LiveData<Int>
         get() = _hpModifier
+
+    init {
+        setHpValues()
+
+//        if (secondWindIsSuccessful.value != null) {
+//            onSuccessfulSecondWindRoll()
+//        }
+    }
 
     /**
      * Variables to check which tool is currently active
      */
-    private val _attackModeIsActive = MutableLiveData<Boolean>()
+    private val _attackModeIsActive = MutableLiveData(false)
     val attackModeIsActive: LiveData<Boolean>
         get() = _attackModeIsActive
 
-    private val _counterattackModeIsActive = MutableLiveData<Boolean>()
+    private val _counterattackModeIsActive = MutableLiveData(false)
     val counterattackModeIsActive: LiveData<Boolean>
         get() = _counterattackModeIsActive
 
-    private val _secondWindIsActive = MutableLiveData<Boolean>()
+    private val _secondWindIsActive = MutableLiveData(false)
     val secondWindIsActive: LiveData<Boolean>
         get() = _secondWindIsActive
 
     private val _secondWindIsSuccessful = MutableLiveData<Boolean>(state.get("second_wind_result"))
     val secondWindIsSuccessful: LiveData<Boolean>
         get() = _secondWindIsSuccessful
-
-
-    init {
-        _attackModeIsActive.value = false
-        _counterattackModeIsActive.value = false
-        _secondWindIsActive.value = false
-
-        if (secondWindIsSuccessful.value != null) {
-            onSuccessfulSecondWindRoll()
-        }
-    }
 
     /**
      * Navigation event channel for GameTools
@@ -161,6 +150,20 @@ class GamePlayerToolsViewModel @Inject constructor(
 
     fun onRivalSelect(rivalGang: Gang, isDefeated: Boolean) {
         toggleRivalDefeatStatus(rivalGang, isDefeated)
+    }
+
+    private fun setHpValues() = viewModelScope.launch {
+        traitList.collect { traits ->
+            userGangTraitFlow.collect { traitLabel ->
+                val userTrait = traits.first { it.name == traitLabel.asString }
+
+                _hpModifier.value = userTrait.hp
+                _hasModifiedHp.value = hpModifier.value != 0
+                if (hpModifier.value != null) {
+                    _hpCount.value = STARTING_HP + hpModifier.value!!
+                }
+            }
+        }
     }
 
     private fun onSuccessfulSecondWindRoll() {

@@ -3,10 +3,12 @@ package com.flounderguy.knifefightutilities.ui.setup.finalstep
 import androidx.lifecycle.*
 import com.flounderguy.knifefightutilities.data.CharacterTrait
 import com.flounderguy.knifefightutilities.data.Gang
+import com.flounderguy.knifefightutilities.data.Gang.Trait
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
+import com.flounderguy.knifefightutilities.util.convertTraitToLabel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,70 +16,67 @@ import javax.inject.Inject
 /**
  * ViewModel for the SetupFinalStepFragment.
  * This ViewModel is in charge of:
- *      - Creating Gang objects based on trait selections made by the user and saving them in the
- *          database.
- *      - Notifying the fragment which trait belongs to the user.
+ *      - Taking input from the user for the gang trait cards that all opponents drew.
+ *      - Using all input gathered to create and store a Gang object for each rival.
  *      - Providing navigation events for the fragment to implement.
  */
 @HiltViewModel
 class SetupFinalStepViewModel @Inject constructor(
-    private val repository: KnifeFightRepository,
-    private val state: SavedStateHandle
+    private val repository: KnifeFightRepository
 ) : ViewModel() {
 
     /**
-     * User gang variables
+     * User Gang values
      */
-    // This creates variables to hold the user gang values.
+    // These variables hold the flow of the user Gang trait data.
+    private val userGangFlow = repository.getUserGang()
+    var userTrait = Trait.NONE
+
+    /**
+     * Trait values
+     */
+    // This tells the fragment if a trait has been clicked.
     private val _rivalsAreSelected = MutableLiveData(false)
     val rivalsAreSelected: LiveData<Boolean>
         get() = _rivalsAreSelected
 
-    private var userGang = state.get<Gang>("gang")
-
-    private val _userGangName = MutableLiveData(userGang?.name)
-    val userGangName: LiveData<String?>
-        get() = _userGangName
-
-    private val _userGangColor = MutableLiveData(userGang?.color)
-    val userGangColor: LiveData<Gang.Color?>
-        get() = _userGangColor
-
-    private val _userGangTrait = MutableLiveData(userGang?.trait)
-    val userGangTrait: LiveData<Gang.Trait?>
-        get() = _userGangTrait
-
-    /**
-     * Stat holder for the user's character trait
-     */
-    // This provides a handle for the user's trait stats.
-    private val traitData = userGangTrait.value?.let { repository.getTraitFlow(it).asLiveData() }
-
-    /**
-     * Trait list
-     */
-    // This holds a list of all traits.
+    // This holds a list of all CharacterTrait objects in the database.
     val traitList = repository.getTraitList().asLiveData()
 
     /**
      * Rival Gang lists
      */
     // This creates a list of rival Gang objects to be populated and inserted into the database.
-    private val rivalGangList = mutableListOf<Gang>()
-    // This creates a list of rival Gang traits based on user selections.
-    private val rivalGangTraits = mutableListOf<Gang.Trait>()
+    private val _rivalGangList = mutableListOf<Gang>()
+    val rivalGangList: List<Gang>
+        get() = _rivalGangList
+
+    // This creates a list of rival Trait values based on user selections.
+    private val _rivalGangTraits = mutableListOf<Trait>()
+    val rivalGangTraits: List<Trait>
+        get() = _rivalGangTraits
 
     /**
-     * Event channel for FinalStepEvents
+     * Event channel variables
      */
-    // This creates a channel for all events associated with this ViewModel's corresponding fragment.
+    // These variables create a flow channel of the objects in the FinalStepEvent class.
     private val finalStepEventChannel = Channel<FinalStepEvent>()
     val finalStepEvent = finalStepEventChannel.receiveAsFlow()
 
     /**
-     * Event functions for the FinalStep fragment
+     * Startup method
      */
-    // This creates functions that can be called from the fragment to execute each event.
+    // This method performs actions that are needed every time the fragment is entered.
+    fun onFinalStepStarted() = viewModelScope.launch {
+        userGangFlow.collect {
+            userTrait = it.trait!!
+        }
+    }
+
+    /**
+     * Action methods
+     */
+    // These are the action methods for buttons in the FinalStepFragment UI.
     fun onPreviousStepButtonClicked() = viewModelScope.launch {
         finalStepEventChannel.send(FinalStepEvent.NavigateBackToThirdStep)
     }
@@ -92,32 +91,35 @@ class SetupFinalStepViewModel @Inject constructor(
     }
 
     /**
-     * Select/deselect function for character trait buttons
+     * Setter method
      */
-    // This adds the trait to the rivalGangTraits list if it is selected and removes it when deselected.
+    // This method adds Trait values into rivalGangTraits if they were not previously in there.
     fun onTraitSelected(trait: CharacterTrait) {
-        val traitLabel = enumValueOf<Gang.Trait>(trait.name.uppercase().replace('-','_'))
+        val traitLabel = convertTraitToLabel(trait)
         if (rivalGangTraits.contains(traitLabel)) {
-            rivalGangTraits.remove(traitLabel)
+            _rivalGangTraits.remove(traitLabel)
         } else {
-            rivalGangTraits.add(traitLabel)
+            _rivalGangTraits.add(traitLabel)
         }
         _rivalsAreSelected.value = rivalGangTraits.isNotEmpty()
     }
 
+    /**
+     * Public method
+     */
+    // This compares the CharacterTrait value against the Trait value for the user Gang.
     fun isUserTrait(trait: CharacterTrait): Boolean {
-        return userGangTrait.value?.asString == trait.name
+        return userTrait.asString == trait.name
     }
 
     /**
-     * Private functions
+     * Private method
      */
-    // This takes each trait in the list of traits selected by the user and wraps it in a Gang object
-    // with default values. It is called when exiting the page.
+    // This takes each Trait in rivalGangTraits and wraps it in a Gang object with default values.
     private fun populateRivalGangList() {
         for (trait in rivalGangTraits) {
             val newRivalGang = Gang("", Gang.Color.NONE, trait, isUser = false, isDefeated = false)
-            rivalGangList.add(newRivalGang)
+            _rivalGangList.add(newRivalGang)
         }
     }
 

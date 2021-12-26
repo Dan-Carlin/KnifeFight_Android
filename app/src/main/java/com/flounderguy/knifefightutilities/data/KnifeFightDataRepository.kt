@@ -1,5 +1,6 @@
 package com.flounderguy.knifefightutilities.data
 
+import android.util.Log
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -14,35 +15,8 @@ class KnifeFightDataRepository @Inject constructor(
     }
 
     override fun getTraitFlow(traitLabel: Gang.Trait): Flow<CharacterTrait> {
+        Log.d("Repository", "getTraitFlow() called.")
         return characterTraitDao.getTraitByName(traitLabel.asString)
-    }
-
-    override suspend fun getHp(traitLabel: Gang.Trait): Int? {
-        return characterTraitDao.getTraitByName(traitLabel.asString).asLiveData().value?.hp
-    }
-
-    override suspend fun getGuts(traitLabel: Gang.Trait): Int? {
-        return characterTraitDao.getTraitByName(traitLabel.asString).asLiveData().value?.guts
-    }
-
-    override suspend fun getAttack(traitLabel: Gang.Trait): Int? {
-        return characterTraitDao.getTraitByName(traitLabel.asString).asLiveData().value?.attack
-    }
-
-    override suspend fun getDamage(traitLabel: Gang.Trait): Int? {
-        return characterTraitDao.getTraitByName(traitLabel.asString).asLiveData().value?.damage
-    }
-
-    override suspend fun getLuck(traitLabel: Gang.Trait): Int? {
-        return characterTraitDao.getTraitByName(traitLabel.asString).asLiveData().value?.luck
-    }
-
-    override suspend fun getWeapon(traitLabel: Gang.Trait): String? {
-        return characterTraitDao.getTraitByName(traitLabel.asString).asLiveData().value?.weapon
-    }
-
-    override suspend fun getUtility(traitLabel: Gang.Trait): String? {
-        return characterTraitDao.getTraitByName(traitLabel.asString).asLiveData().value?.utility
     }
 
     override suspend fun insertTrait(trait: CharacterTrait) {
@@ -61,28 +35,20 @@ class KnifeFightDataRepository @Inject constructor(
         return gangDao.getRivalGangs()
     }
 
-    override suspend fun getGangName(): String? {
-        return if (userGangExists()) {
-            getUserGang().asLiveData().value?.name
-        } else {
-            ""
-        }
+    override fun getGangNameFlow(): Flow<String> {
+        return gangDao.getGangNameFlow()
     }
 
-    override suspend fun getGangColor(): Gang.Color? {
-        return if (userGangExists()) {
-            getUserGang().asLiveData().value?.color
-        } else {
-            Gang.Color.NONE
-        }
+    override fun getGangColorFlow(): Flow<Gang.Color> {
+        return gangDao.getGangColorFlow()
     }
 
-    override suspend fun getGangTrait(): Gang.Trait? {
-        return if (userGangExists()) {
-            getUserGang().asLiveData().value?.trait
-        } else {
-            Gang.Trait.NONE
-        }
+    override fun getGangTraitFlow(): Flow<Gang.Trait> {
+        return gangDao.getGangTraitFlow()
+    }
+
+    override suspend fun getGangTrait(): Gang.Trait {
+        return gangDao.getGangTrait()
     }
 
     override suspend fun userGangExists(): Boolean {
@@ -104,31 +70,4 @@ class KnifeFightDataRepository @Inject constructor(
     override suspend fun clearGangs() {
         gangDao.deleteAll()
     }
-}
-
-interface KnifeFightRepository {
-    // Trait functions to implement
-    fun getTraitList(): Flow<List<CharacterTrait>>
-    fun getTraitFlow(traitLabel: Gang.Trait): Flow<CharacterTrait>
-    suspend fun getHp(traitLabel: Gang.Trait): Int?
-    suspend fun getGuts(traitLabel: Gang.Trait): Int?
-    suspend fun getAttack(traitLabel: Gang.Trait): Int?
-    suspend fun getDamage(traitLabel: Gang.Trait): Int?
-    suspend fun getLuck(traitLabel: Gang.Trait): Int?
-    suspend fun getWeapon(traitLabel: Gang.Trait): String?
-    suspend fun getUtility(traitLabel: Gang.Trait): String?
-    suspend fun insertTrait(trait: CharacterTrait)
-    suspend fun clearTraits()
-
-    // Gang functions to implement
-    fun getUserGang(): Flow<Gang>
-    fun getRivalGangs(): Flow<List<Gang>>
-    suspend fun getGangName(): String?
-    suspend fun getGangColor(): Gang.Color?
-    suspend fun getGangTrait(): Gang.Trait?
-    suspend fun userGangExists(): Boolean
-    suspend fun rivalGangsExist(): Boolean
-    suspend fun insertGang(gang: Gang)
-    suspend fun updateGang(gang: Gang)
-    suspend fun clearGangs()
 }

@@ -9,6 +9,18 @@ interface GangDao {
     @Query("SELECT * FROM gang_table WHERE isUser = 1")
     fun getUserGang(): Flow<Gang>
 
+    @Query("SELECT name FROM gang_table WHERE isUser = 1")
+    fun getGangNameFlow(): Flow<String>
+
+    @Query("SELECT color FROM gang_table WHERE isUser = 1")
+    fun getGangColorFlow(): Flow<Gang.Color>
+
+    @Query("SELECT trait FROM gang_table WHERE isUser = 1")
+    fun getGangTraitFlow(): Flow<Gang.Trait>
+
+    @Query("SELECT trait FROM gang_table WHERE isUser = 1")
+    suspend fun getGangTrait(): Gang.Trait
+
     @Query("SELECT * FROM gang_table WHERE isUser = 0")
     fun getRivalGangs(): Flow<List<Gang>>
 
