@@ -63,7 +63,6 @@ class SetupSecondStepViewModelTest {
 
         // Then
         assertThat(secondStepViewModel.gangColor).isEqualTo(testGang.color)
-        // and
         assertThat(secondStepViewModel.gangTrait).isEqualTo(testGang.trait)
     }
 
@@ -87,14 +86,11 @@ class SetupSecondStepViewModelTest {
 
             // When
             secondStepViewModel.onSecondStepStarted()
-            // and
             secondStepViewModel.gangColor = testColor
-            // and
             secondStepViewModel.onPreviousStepButtonClicked()
 
             // Then
             coVerify { repository.updateGang(updatedGang) }
-            // and
             assertThat(SetupSecondStepViewModel.SecondStepEvent.NavigateBackToFirstStep)
                 .isEqualTo(secondStepViewModel.secondStepEvent.first())
         }
@@ -107,14 +103,11 @@ class SetupSecondStepViewModelTest {
 
             // When
             secondStepViewModel.onSecondStepStarted()
-            // and
             secondStepViewModel.gangColor = testColor
-            // and
             secondStepViewModel.onSecondStepCompleted()
 
             // Then
             coVerify { repository.updateGang(updatedGang) }
-            // and
             assertThat(
                 SetupSecondStepViewModel.SecondStepEvent.NavigateToThirdStepScreen(
                     secondStepViewModel.gangTrait

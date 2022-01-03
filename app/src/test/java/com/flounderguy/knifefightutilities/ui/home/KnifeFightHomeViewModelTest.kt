@@ -42,7 +42,6 @@ class KnifeFightHomeViewModelTest {
     fun `onNewGameStarted verifies existing game when activeGame is true`() = runBlockingTest {
         // When
         homeViewModel.onAppStarted()
-        // and
         homeViewModel.onNewGameStarted()
 
         // Then
@@ -55,7 +54,6 @@ class KnifeFightHomeViewModelTest {
         // When
         coEvery { repository.rivalGangsExist() } returns false
         homeViewModel.onAppStarted()
-        // and
         homeViewModel.onNewGameStarted()
 
         // Then

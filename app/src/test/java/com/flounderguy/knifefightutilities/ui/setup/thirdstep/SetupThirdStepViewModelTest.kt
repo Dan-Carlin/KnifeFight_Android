@@ -67,7 +67,6 @@ class SetupThirdStepViewModelTest {
 
         // Then
         assertThat(thirdStepViewModel.gangColor).isEqualTo(testGang.color)
-        // and
         assertThat(thirdStepViewModel.gangTrait).isEqualTo(testGang.trait)
     }
 
@@ -78,7 +77,6 @@ class SetupThirdStepViewModelTest {
 
         // When
         coEvery { testCharacterTrait.name } returns "Lucky"
-        // and
         thirdStepViewModel.setUserTrait(testCharacterTrait)
 
         // Then
@@ -101,14 +99,11 @@ class SetupThirdStepViewModelTest {
 
         // When
         thirdStepViewModel.onThirdStepStarted()
-        // and
         thirdStepViewModel.gangTrait = testTrait
-        // and
         thirdStepViewModel.onPreviousStepButtonClicked()
 
         // Then
         coVerify { repository.updateGang(updatedGang) }
-        // and
         assertThat(SetupThirdStepViewModel.ThirdStepEvent.NavigateBackToSecondStep)
             .isEqualTo(thirdStepViewModel.thirdStepEvent.first())
     }
@@ -120,14 +115,11 @@ class SetupThirdStepViewModelTest {
 
         // When
         thirdStepViewModel.onThirdStepStarted()
-        // and
         thirdStepViewModel.gangTrait = testTrait
-        // and
         thirdStepViewModel.onThirdStepCompleted()
 
         // Then
         coVerify { repository.updateGang(updatedGang) }
-        // and
         assertThat(SetupThirdStepViewModel.ThirdStepEvent.NavigateToFinalStepScreen)
             .isEqualTo(thirdStepViewModel.thirdStepEvent.first())
     }

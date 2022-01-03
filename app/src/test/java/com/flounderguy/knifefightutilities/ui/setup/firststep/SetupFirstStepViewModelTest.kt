@@ -62,7 +62,6 @@ class SetupFirstStepViewModelTest {
 
         // Then
         assertThat(firstStepViewModel.gangName).isEqualTo(testGang.name)
-        // and
         assertThat(firstStepViewModel.gangColor).isEqualTo(testGang.color)
     }
 
@@ -80,12 +79,10 @@ class SetupFirstStepViewModelTest {
         runBlockingTest {
             // When
             firstStepViewModel.onFirstStepStarted()
-            // and
             firstStepViewModel.onFirstStepCompleted()
 
             // Then
             coVerify { firstStepViewModel.userGang.value?.let { repository.updateGang(it) } }
-            // and
             assertThat(
                 SetupFirstStepViewModel.FirstStepEvent.NavigateToSecondStepScreen(
                     firstStepViewModel.gangColor
@@ -102,12 +99,10 @@ class SetupFirstStepViewModelTest {
 
                 // When
                 firstStepViewModel.onFirstStepStarted()
-                // and
                 firstStepViewModel.onFirstStepCompleted()
 
                 // Then
                 coVerify { repository.insertGang(any()) }
-                // and
                 assertThat(
                     SetupFirstStepViewModel.FirstStepEvent.NavigateToSecondStepScreen(
                         firstStepViewModel.gangColor

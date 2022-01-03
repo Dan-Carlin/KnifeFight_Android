@@ -1,6 +1,5 @@
 package com.flounderguy.knifefightutilities.data
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -14,7 +13,6 @@ class KnifeFightDataRepository @Inject constructor(
     }
 
     override fun getTraitFlow(traitLabel: Gang.Trait): Flow<CharacterTrait> {
-        Log.d("Repository", "getTraitFlow() called.")
         return characterTraitDao.getTraitByName(traitLabel.asString)
     }
 

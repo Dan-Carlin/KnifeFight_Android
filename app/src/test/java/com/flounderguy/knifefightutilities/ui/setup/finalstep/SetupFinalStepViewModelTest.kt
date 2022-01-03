@@ -70,7 +70,6 @@ class SetupFinalStepViewModelTest {
 
         // When
         coEvery { testCharacterTrait.name } returns "Fierce"
-        // and
         finalStepViewModel.onTraitSelected(testCharacterTrait)
 
         // Then
@@ -84,7 +83,6 @@ class SetupFinalStepViewModelTest {
 
         // When
         coEvery { testCharacterTrait.name } returns "Fierce"
-        // and
         finalStepViewModel.onTraitSelected(testCharacterTrait)
 
         // Then
@@ -99,7 +97,6 @@ class SetupFinalStepViewModelTest {
 
         // When
         coEvery { testCharacterTrait.name } returns "Heavy"
-        // and
         finalStepViewModel.userTrait = testTrait
 
         // Then
@@ -116,9 +113,7 @@ class SetupFinalStepViewModelTest {
 
         // When
         coEvery { testCharacterTrait.name } returns "Burly"
-        // and
         finalStepViewModel.onTraitSelected(testCharacterTrait)
-        // and
         finalStepViewModel.onSetupCompleted()
 
         // Then
