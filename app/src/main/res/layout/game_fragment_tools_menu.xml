@@ -1,44 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Layout for GameToolsMenuFragment, menu fragment for all game tools features.-->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.game.tools.GamePlayerToolsFragment">
+    android:padding="@dimen/fragment_padding"
+    tools:context=".ui.game.tools.GameToolsMenuFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/tools_left_menu_items_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/button_attack_mode_tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Attack Mode"
+            android:contentDescription="@string/button_attack_mode_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
             app:layout_constraintBottom_toTopOf="@+id/button_counterattack_mode_tools"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button_counterattack_mode_tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Counter-attack Mode"
+            android:contentDescription="@string/button_counterattack_mode_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
             app:layout_constraintBottom_toTopOf="@+id/button_character_info_tools"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_attack_mode_tools" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button_character_info_tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Character Info"
+            android:contentDescription="@string/button_character_info_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,48 +53,51 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/setup_gang_name_layout"
+    <FrameLayout
+        android:id="@+id/game_tools_container_layout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
-        app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@+id/tools_right_menu_items_layout"
+        app:layout_constraintStart_toEndOf="@+id/tools_left_menu_items_layout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/tools_right_menu_items_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/button_settings_tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:contentDescription="@string/button_settings_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
             app:layout_constraintBottom_toTopOf="@+id/button_home_tools"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button_home_tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home"
+            android:contentDescription="@string/button_home_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
             app:layout_constraintBottom_toTopOf="@+id/button_player_banner_tools"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_settings_tools" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button_player_banner_tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Player Banner"
+            android:contentDescription="@string/button_banner_mode_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

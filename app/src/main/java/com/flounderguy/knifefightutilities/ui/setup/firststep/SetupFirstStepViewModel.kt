@@ -25,7 +25,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SetupFirstStepViewModel @Inject constructor(
-    private val repository: KnifeFightRepository
+    private val repository: KnifeFightRepository,
+    private val state: SavedStateHandle
 ) : ViewModel() {
 
     /**
@@ -40,12 +41,16 @@ class SetupFirstStepViewModel @Inject constructor(
     // These variables hold the values emitted by userGangFlow, or default values if there are none.
     var gangName = userGang.value?.name ?: ""
     var gangColor = userGang.value?.color ?: Color.NONE
+        set(value) {
+            field = value
+            state.set("color", value)
+        }
     private var gangTrait = userGang.value?.trait ?: Trait.NONE
 
     /**
      * Event channel variables
      */
-    // These variables create a flow channel of the objects in the FirstStepEvent class.
+    // These variables create a flow channel of the objects in the sealed event class.
     private val firstStepEventChannel = Channel<FirstStepEvent>()
     val firstStepEvent = firstStepEventChannel.receiveAsFlow()
 
@@ -67,7 +72,7 @@ class SetupFirstStepViewModel @Inject constructor(
     /**
      * Action methods
      */
-    // These are the action methods for buttons in the FirstStepFragment UI.
+    // These are the action methods for buttons in the fragment's UI.
     fun onCancelButtonPressed() = viewModelScope.launch {
         firstStepEventChannel.send(FirstStepEvent.NavigateBackToHomeScreen)
     }
@@ -86,7 +91,7 @@ class SetupFirstStepViewModel @Inject constructor(
             val newGang = Gang(gangName, gangColor, gangTrait, isUser = true, isDefeated = false)
             repository.insertGang(newGang)
         }
-        firstStepEventChannel.send(FirstStepEvent.NavigateToSecondStepScreen)
+        firstStepEventChannel.send(FirstStepEvent.NavigateToSecondStepScreen(gangColor))
     }
 
     // This generates a randomized gangName string for the user.
@@ -100,6 +105,6 @@ class SetupFirstStepViewModel @Inject constructor(
     // This creates a list of events that must be implemented at some point.
     sealed class FirstStepEvent {
         object NavigateBackToHomeScreen : FirstStepEvent()
-        object NavigateToSecondStepScreen : FirstStepEvent()
+        data class NavigateToSecondStepScreen(val color: Color) : FirstStepEvent()
     }
 }

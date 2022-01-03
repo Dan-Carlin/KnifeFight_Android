@@ -28,6 +28,9 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
     // This creates an instance of the viewModel for this fragment.
     private val homeViewModel: KnifeFightHomeViewModel by viewModels()
 
+    // ViewBinding variable
+    private lateinit var homeBinding: KnifeFightFragmentHomeBinding
+
     /**
      * Lifecycle methods
      */
@@ -36,12 +39,7 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         // ViewBinding variable
-        val homeBinding = KnifeFightFragmentHomeBinding.bind(view)
-
-        // UI initialization and ViewModel interaction
-        homeViewModel.activeGame.observe(viewLifecycleOwner) {
-            homeBinding.buttonContinueFightHome.isVisible = it
-        }
+        homeBinding = KnifeFightFragmentHomeBinding.bind(view)
 
         // Button actions
         homeBinding.apply {
@@ -63,9 +61,9 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             homeViewModel.homeEvent.collect { event ->
                 when (event) {
-                    is KnifeFightHomeViewModel.HomeEvent.NavigateToGameToolsScreen -> {
+                    is KnifeFightHomeViewModel.HomeEvent.NavigateToGameToolsMenuScreen -> {
                         val actionHomeToGameTools =
-                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToGamePlayerToolsFragment()
+                            KnifeFightHomeFragmentDirections.actionKnifeFightHomeFragmentToGameToolsMenuFragment()
                         findNavController().navigate(actionHomeToGameTools)
                     }
                     is KnifeFightHomeViewModel.HomeEvent.NavigateToConfirmNewGameScreen -> {
@@ -92,6 +90,20 @@ class KnifeFightHomeFragment : Fragment(R.layout.knife_fight_fragment_home) {
                     }
                 }.exhaustive
             }
+        }
+    }
+
+    // This executes the code that should run every time the fragment is entered.
+    override fun onStart() {
+        super.onStart()
+        // ViewBinding variable
+        homeBinding = KnifeFightFragmentHomeBinding.bind(requireView())
+
+        // UI initialization and ViewModel interaction
+        homeViewModel.onAppStarted()
+
+        homeViewModel.activeGame.observe(viewLifecycleOwner) {
+            homeBinding.buttonContinueFightHome.isVisible = it
         }
     }
 }

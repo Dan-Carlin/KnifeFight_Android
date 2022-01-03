@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.flounderguy.knifefightutilities.R
 import com.flounderguy.knifefightutilities.data.CharacterTrait
+import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.databinding.SetupFragmentFinalStepBinding
-import com.flounderguy.knifefightutilities.ui.setup.TraitRoster
+import com.flounderguy.knifefightutilities.ui.setup.CharacterRoster
 import com.flounderguy.knifefightutilities.ui.shared.GangDisplayFragment
+import com.flounderguy.knifefightutilities.ui.shared.GangDisplayFragment.TraitDisplay
 import com.flounderguy.knifefightutilities.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -26,7 +28,7 @@ import kotlinx.coroutines.flow.collect
  */
 @AndroidEntryPoint
 class SetupFinalStepFragment : Fragment(R.layout.setup_fragment_final_step),
-    TraitRoster.OnItemClickListener {
+    CharacterRoster.OnItemClickListener {
 
     /**
      * Variables
@@ -45,11 +47,12 @@ class SetupFinalStepFragment : Fragment(R.layout.setup_fragment_final_step),
     ): View? {
         // GangDisplayFragment initialization
         val displayFragmentManager = parentFragmentManager
-        val gangDisplayFragment = GangDisplayFragment()
-        val fragmentTransaction: FragmentTransaction = displayFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.setup_gang_name_layout, gangDisplayFragment)
-            .addToBackStack(null)
-        fragmentTransaction.commit()
+        val gangDisplayFragment = GangDisplayFragment.newInstance(TraitDisplay.SHOW)
+
+        displayFragmentManager.beginTransaction().apply {
+            replace(R.id.setup_gang_name_layout, gangDisplayFragment)
+            commit()
+        }
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -61,8 +64,8 @@ class SetupFinalStepFragment : Fragment(R.layout.setup_fragment_final_step),
         // ViewBinding variable
         val finalStepBinding = SetupFragmentFinalStepBinding.bind(view)
 
-        // Instance of TraitRoster class
-        val traitRoster = TraitRoster(this)
+        // Instance of CharacterRoster class
+        val traitRoster = CharacterRoster(this)
 
         // UI initialization and ViewModel interaction
         finalStepViewModel.apply {
@@ -76,9 +79,9 @@ class SetupFinalStepFragment : Fragment(R.layout.setup_fragment_final_step),
                 context?.let {
                     traitRoster.createTraitRoster(
                         context = it,
+                        rosterType = CharacterRoster.RosterType.SELECT_RIVALS,
                         radioGroup = finalStepBinding.characterTraitGroup,
-                        traitList = traits,
-                        userTrait = finalStepViewModel.userTrait
+                        traitList = traits
                     )
                 }
             }
@@ -102,9 +105,9 @@ class SetupFinalStepFragment : Fragment(R.layout.setup_fragment_final_step),
                     is SetupFinalStepViewModel.FinalStepEvent.NavigateBackToThirdStep -> {
                         findNavController().popBackStack()
                     }
-                    is SetupFinalStepViewModel.FinalStepEvent.NavigateToGameToolsScreen -> {
+                    is SetupFinalStepViewModel.FinalStepEvent.NavigateToGameToolsMenuScreen -> {
                         val actionFinalStepToGameTools =
-                            SetupFinalStepFragmentDirections.actionSetupFinalStepFragmentToGamePlayerToolsFragment()
+                            SetupFinalStepFragmentDirections.actionSetupFinalStepFragmentToGameToolsMenuFragment()
                         findNavController().navigate(actionFinalStepToGameTools)
                     }
                 }.exhaustive
@@ -113,11 +116,15 @@ class SetupFinalStepFragment : Fragment(R.layout.setup_fragment_final_step),
     }
 
     /**
-     * Override methods
+     * Overridden methods
      */
-    // Implementation of the methods in the TraitRoster click listener interface.
+    // Implementation of the methods in the CharacterRoster click listener interface.
     override fun onTraitClick(view: View, trait: CharacterTrait) {
         finalStepViewModel.onTraitSelected(trait)
+    }
+
+    override fun onGangClick(checkBox: CheckBox, gang: Gang) {
+        return
     }
 
     override fun isUserTrait(trait: CharacterTrait): Boolean {

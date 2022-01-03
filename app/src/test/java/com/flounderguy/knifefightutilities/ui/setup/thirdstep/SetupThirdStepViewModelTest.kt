@@ -1,6 +1,7 @@
 package com.flounderguy.knifefightutilities.ui.setup.thirdstep
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.SavedStateHandle
 import com.flounderguy.knifefightutilities.data.CharacterTrait
 import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
@@ -9,6 +10,7 @@ import io.mockk.*
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -36,9 +38,9 @@ class SetupThirdStepViewModelTest {
         isDefeated = false,
         id = 0
     )
-
     private val testGangFlow = flowOf(testGang)
     private val testTraitList = mockk<Flow<List<CharacterTrait>>>()
+    private val testTrait = Gang.Trait.LUCKY
 
     private val repository = mockk<KnifeFightRepository> {
         coEvery { getUserGang() } returns testGangFlow
@@ -46,12 +48,16 @@ class SetupThirdStepViewModelTest {
         coEvery { userGangExists() } returns true
         coEvery { updateGang(any()) } just runs
     }
+    private val state = mockk<SavedStateHandle> {
+        every { get<Gang.Trait>(any()) } returns testTrait
+        every { set<Gang.Trait>(any(), any()) } just runs
+    }
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
 
-        thirdStepViewModel = SetupThirdStepViewModel(repository)
+        thirdStepViewModel = SetupThirdStepViewModel(repository, state)
     }
 
     @Test
@@ -68,7 +74,6 @@ class SetupThirdStepViewModelTest {
     @Test
     fun `CharacterTrait is successfully converted to Trait enum when setUserTrait()`() = runBlockingTest {
         // Given
-        val testTrait = Gang.Trait.LUCKY
         val testCharacterTrait = mockk<CharacterTrait>()
 
         // When
@@ -82,9 +87,6 @@ class SetupThirdStepViewModelTest {
 
     @Test
     fun `traitIsSelected set to true when gangTrait value is set`() {
-        // Given
-        val testTrait = Gang.Trait.BRASH
-
         // When
         thirdStepViewModel.gangTrait = testTrait
 
@@ -93,9 +95,27 @@ class SetupThirdStepViewModelTest {
     }
 
     @Test
-    fun `onThirdStepCompleted() updates Gang with correct trait value`() = runBlockingTest {
+    fun `onPreviousStepButtonClicked() updates Gang with new trait value and navigates back`() = runBlockingTest {
         // Given
-        val testTrait = Gang.Trait.EAGER
+        val updatedGang = testGang.copy(trait = testTrait)
+
+        // When
+        thirdStepViewModel.onThirdStepStarted()
+        // and
+        thirdStepViewModel.gangTrait = testTrait
+        // and
+        thirdStepViewModel.onPreviousStepButtonClicked()
+
+        // Then
+        coVerify { repository.updateGang(updatedGang) }
+        // and
+        assertThat(SetupThirdStepViewModel.ThirdStepEvent.NavigateBackToSecondStep)
+            .isEqualTo(thirdStepViewModel.thirdStepEvent.first())
+    }
+
+    @Test
+    fun `onThirdStepCompleted() updates Gang with new trait value and navigates forward`() = runBlockingTest {
+        // Given
         val updatedGang = testGang.copy(trait = testTrait)
 
         // When
@@ -107,5 +127,8 @@ class SetupThirdStepViewModelTest {
 
         // Then
         coVerify { repository.updateGang(updatedGang) }
+        // and
+        assertThat(SetupThirdStepViewModel.ThirdStepEvent.NavigateToFinalStepScreen)
+            .isEqualTo(thirdStepViewModel.thirdStepEvent.first())
     }
 }

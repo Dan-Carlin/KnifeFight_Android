@@ -1,12 +1,14 @@
 package com.flounderguy.knifefightutilities.ui.setup.secondstep
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.SavedStateHandle
 import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import com.google.common.truth.Truth.assertThat
 import junit.framework.Assert.assertTrue
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -34,20 +36,24 @@ class SetupSecondStepViewModelTest {
         isDefeated = false,
         id = 0
     )
-
     private val testGangFlow = flowOf(testGang)
+    private val testColor = Gang.Color.RED
 
     private val repository = mockk<KnifeFightRepository> {
         coEvery { getUserGang() } returns testGangFlow
         coEvery { userGangExists() } returns true
         coEvery { updateGang(any()) } just runs
     }
+    private val state = mockk<SavedStateHandle> {
+        every { get<Gang.Color>(any()) } returns testColor
+        every { set<Gang.Color>(any(), any()) } just runs
+    }
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
 
-        secondStepViewModel = SetupSecondStepViewModel(repository)
+        secondStepViewModel = SetupSecondStepViewModel(repository, state)
     }
 
     @Test
@@ -74,19 +80,45 @@ class SetupSecondStepViewModelTest {
     }
 
     @Test
-    fun `onSecondStepCompleted() updates Gang with correct color value`() = runBlockingTest {
-        // Given
-        val testColor = Gang.Color.RED
-        val updatedGang = testGang.copy(color = testColor)
+    fun `onPreviousStepButtonClicked() updates Gang with new color value and navigates back`() =
+        runBlockingTest {
+            // Given
+            val updatedGang = testGang.copy(color = testColor)
 
-        // When
-        secondStepViewModel.onSecondStepStarted()
-        // and
-        secondStepViewModel.gangColor = testColor
-        // and
-        secondStepViewModel.onSecondStepCompleted()
+            // When
+            secondStepViewModel.onSecondStepStarted()
+            // and
+            secondStepViewModel.gangColor = testColor
+            // and
+            secondStepViewModel.onPreviousStepButtonClicked()
 
-        // Then
-        coVerify { repository.updateGang(updatedGang) }
-    }
+            // Then
+            coVerify { repository.updateGang(updatedGang) }
+            // and
+            assertThat(SetupSecondStepViewModel.SecondStepEvent.NavigateBackToFirstStep)
+                .isEqualTo(secondStepViewModel.secondStepEvent.first())
+        }
+
+    @Test
+    fun `onSecondStepCompleted() updates Gang with new color value and navigates forward`() =
+        runBlockingTest {
+            // Given
+            val updatedGang = testGang.copy(color = testColor)
+
+            // When
+            secondStepViewModel.onSecondStepStarted()
+            // and
+            secondStepViewModel.gangColor = testColor
+            // and
+            secondStepViewModel.onSecondStepCompleted()
+
+            // Then
+            coVerify { repository.updateGang(updatedGang) }
+            // and
+            assertThat(
+                SetupSecondStepViewModel.SecondStepEvent.NavigateToThirdStepScreen(
+                    secondStepViewModel.gangTrait
+                )
+            ).isEqualTo(secondStepViewModel.secondStepEvent.first())
+        }
 }

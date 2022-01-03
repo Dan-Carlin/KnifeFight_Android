@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.flounderguy.knifefightutilities.R
 import com.flounderguy.knifefightutilities.data.CharacterTrait
+import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.databinding.SetupFragmentThirdStepBinding
-import com.flounderguy.knifefightutilities.ui.setup.TraitRoster
+import com.flounderguy.knifefightutilities.ui.setup.CharacterRoster
 import com.flounderguy.knifefightutilities.ui.shared.GangDisplayFragment
+import com.flounderguy.knifefightutilities.ui.shared.GangDisplayFragment.TraitDisplay
 import com.flounderguy.knifefightutilities.util.convertTraitToLabel
 import com.flounderguy.knifefightutilities.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +31,7 @@ import kotlinx.coroutines.flow.collect
  */
 @AndroidEntryPoint
 class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
-    TraitRoster.OnItemClickListener {
+    CharacterRoster.OnItemClickListener {
 
     /**
      * Variables
@@ -38,7 +40,7 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
     private val thirdStepViewModel: SetupThirdStepViewModel by viewModels()
 
     // This creates the gang display sub fragment for this screen.
-    private lateinit var gangDisplayFragment: GangDisplayFragment
+    private val gangDisplayFragment = GangDisplayFragment.newInstance(TraitDisplay.SHOW)
 
     /**
      * Lifecycle methods
@@ -50,12 +52,12 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
         savedInstanceState: Bundle?
     ): View? {
         // GangDisplayFragment initialization
-        gangDisplayFragment = GangDisplayFragment()
         val displayFragmentManager = parentFragmentManager
-        val fragmentTransaction: FragmentTransaction = displayFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.setup_gang_name_layout, gangDisplayFragment)
-            .addToBackStack(null)
-        fragmentTransaction.commit()
+
+        displayFragmentManager.beginTransaction().apply {
+            replace(R.id.setup_gang_name_layout, gangDisplayFragment)
+            commit()
+        }
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -67,8 +69,8 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
         // ViewBinding variable
         val thirdStepBinding = SetupFragmentThirdStepBinding.bind(view)
 
-        // Instance of TraitRoster class
-        val traitRoster = TraitRoster(this)
+        // Instance of CharacterRoster class
+        val traitRoster = CharacterRoster(this)
 
         // UI initialization and ViewModel interaction
         thirdStepViewModel.apply {
@@ -80,9 +82,9 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
                 context?.let {
                     traitRoster.createTraitRoster(
                         context = it,
+                        rosterType = CharacterRoster.RosterType.SELECT_USER,
                         radioGroup = thirdStepBinding.characterTraitGroup,
-                        traitList = traits,
-                        userTrait = null
+                        traitList = traits
                     )
                 }
             }
@@ -119,13 +121,14 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
     // This executes the code that should run every time the fragment is entered.
     override fun onStart() {
         super.onStart()
+        // UI initialization and ViewModel interaction
         thirdStepViewModel.onThirdStepStarted()
     }
 
     /**
-     * Override methods
+     * Overridden methods
      */
-    // Implementation of the methods in the TraitRoster click listener interface.
+    // Implementation of the methods in the CharacterRoster click listener interface.
     override fun onTraitClick(view: View, trait: CharacterTrait) {
         thirdStepViewModel.setUserTrait(trait)
 
@@ -133,7 +136,11 @@ class SetupThirdStepFragment : Fragment(R.layout.setup_fragment_third_step),
         gangDisplayFragment.setTraitDisplay(traitLabel, thirdStepViewModel.gangColor)
     }
 
+    override fun onGangClick(checkBox: CheckBox, gang: Gang) {
+        return
+    }
+
     override fun isUserTrait(trait: CharacterTrait): Boolean {
-        return false
+        return thirdStepViewModel.isUserTrait(trait)
     }
 }

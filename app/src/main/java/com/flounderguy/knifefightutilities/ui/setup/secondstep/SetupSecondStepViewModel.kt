@@ -21,7 +21,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SetupSecondStepViewModel @Inject constructor(
-    private val repository: KnifeFightRepository
+    private val repository: KnifeFightRepository,
+    private val state: SavedStateHandle
 ) : ViewModel() {
 
     /**
@@ -35,7 +36,7 @@ class SetupSecondStepViewModel @Inject constructor(
 
     // These variables hold the values emitted by userGangFlow, or default values if there are none.
     private var gangName = userGang.value?.name ?: ""
-    var gangColor = userGang.value?.color ?: Color.NONE
+    var gangColor = state.get<Color>("color") ?: userGang.value?.color ?: Color.NONE
         set(value) {
             field = value
             if (value != Color.NONE) {
@@ -43,6 +44,10 @@ class SetupSecondStepViewModel @Inject constructor(
             }
         }
     var gangTrait = userGang.value?.trait ?: Trait.NONE
+        set(value) {
+            field = value
+            state.set("trait", value)
+        }
 
     /**
      * Color values
@@ -52,7 +57,7 @@ class SetupSecondStepViewModel @Inject constructor(
     val colorIsSelected: LiveData<Boolean>
         get() = _colorIsSelected
 
-    // This holds an array of all values in the Gang.Color enum class.
+    // This holds an array of all items in the Gang.Color enum class.
     private val _colorArray = MutableLiveData(Color.values())
     val colorArray: LiveData<Array<Color>>
         get() = _colorArray
@@ -60,7 +65,7 @@ class SetupSecondStepViewModel @Inject constructor(
     /**
      * Event channel variables
      */
-    // These variables create a flow channel of the objects in the SecondStepEvent class.
+    // These variables create a flow channel of the objects in the sealed event class.
     private val secondStepEventChannel = Channel<SecondStepEvent>()
     val secondStepEvent = secondStepEventChannel.receiveAsFlow()
 
@@ -82,12 +87,30 @@ class SetupSecondStepViewModel @Inject constructor(
     /**
      * Action methods
      */
-    // These are the action methods for buttons in the SecondStepFragment UI.
+    // These are the action methods for buttons in the fragment's UI.
     fun onPreviousStepButtonClicked() = viewModelScope.launch {
+        updateGang()
         secondStepEventChannel.send(SecondStepEvent.NavigateBackToFirstStep)
     }
 
     fun onSecondStepCompleted() = viewModelScope.launch {
+        updateGang()
+        secondStepEventChannel.send(SecondStepEvent.NavigateToThirdStepScreen(gangTrait))
+    }
+
+    /**
+     * Public method
+     */
+    // This compares the color value input against the Color value for the user Gang.
+    fun isUserColor(color: Color): Boolean {
+        return gangColor.name == color.name
+    }
+
+    /**
+     * Private method
+     */
+    // This method updates the gang with the new values set by the user.
+    private fun updateGang() = viewModelScope.launch {
         val updatedGang = userGang.value!!.copy(
             name = gangName,
             color = gangColor,
@@ -96,7 +119,6 @@ class SetupSecondStepViewModel @Inject constructor(
             isDefeated = false
         )
         repository.updateGang(updatedGang)
-        secondStepEventChannel.send(SecondStepEvent.NavigateToThirdStepScreen)
     }
 
     /**
@@ -105,6 +127,6 @@ class SetupSecondStepViewModel @Inject constructor(
     // This creates a list of events that must be implemented at some point.
     sealed class SecondStepEvent {
         object NavigateBackToFirstStep : SecondStepEvent()
-        object NavigateToThirdStepScreen : SecondStepEvent()
+        data class NavigateToThirdStepScreen(val trait: Trait) : SecondStepEvent()
     }
 }

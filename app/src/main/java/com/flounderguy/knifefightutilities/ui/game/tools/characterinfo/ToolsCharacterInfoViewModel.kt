@@ -87,7 +87,7 @@ class ToolsCharacterInfoViewModel @Inject constructor(
      */
     // This creates functions that can be called from the fragment to execute each event.
     fun onCloseButtonClicked() = viewModelScope.launch {
-        characterInfoEventChannel.send(CharacterInfoEvent.NavigateBackToToolsScreen)
+        characterInfoEventChannel.send(CharacterInfoEvent.NavigateBackToGameToolsMenuScreen)
     }
 
     /**
@@ -95,6 +95,6 @@ class ToolsCharacterInfoViewModel @Inject constructor(
      */
     // This creates a list of events that must be implemented at some point.
     sealed class CharacterInfoEvent {
-        object NavigateBackToToolsScreen : CharacterInfoEvent()
+        object NavigateBackToGameToolsMenuScreen : CharacterInfoEvent()
     }
 }

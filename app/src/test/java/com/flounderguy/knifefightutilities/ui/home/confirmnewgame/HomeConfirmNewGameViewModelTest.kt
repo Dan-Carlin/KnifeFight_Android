@@ -29,8 +29,6 @@ class HomeConfirmNewGameViewModelTest {
 
     @Test
     fun `database cleared when onConfirmClick`() {
-        // Given
-
         // When
         confirmViewModel.onConfirmClick()
 

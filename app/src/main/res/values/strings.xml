@@ -7,6 +7,8 @@
     <!--App strings-->
     <string name="app_name">Knife Fight Utilities</string>
 
+    <string name="text_hp_label">HP</string>
+
     <!--knife_fight_fragment_home-->
     <string name="button_continue_fight_label">Continue The Fight</string>
     <string name="button_start_fight_label">Start the Fight</string>
@@ -48,5 +50,19 @@
     <string name="text_final_step_instructions_info">Select all the character traits your opponents drew.</string>
 
     <string name="button_finish_setup_label">Finish Setup</string>
+
+    <!--game_fragment_tools_menu-->
+    <string name="button_attack_mode_desc">Attack Mode</string>
+    <string name="button_counterattack_mode_desc">Counterattack Mode</string>
+    <string name="button_character_info_desc">Character Info</string>
+    <string name="button_edit_gang_desc">Edit Gang</string>
+    <string name="button_settings_desc">Settings</string>
+    <string name="button_home_desc">Home</string>
+    <string name="button_banner_mode_desc">Banner Mode</string>
+
+    <!--tools_fragment_base_mode-->
+    <string name="button_decrease_hp_desc">Decrease HP</string>
+    <string name="button_increase_hp_desc">Increase HP</string>
+    <string name="text_rivals_remaining_info">Rivals remaining:</string>
 
 </resources>

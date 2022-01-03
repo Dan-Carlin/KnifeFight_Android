@@ -16,23 +16,20 @@
         android:label="Knife Fight - Home"
         tools:layout="@layout/knife_fight_fragment_home">
         <action
+            android:id="@+id/action_knifeFightHomeFragment_to_gameToolsMenuFragment"
+            app:destination="@id/gameToolsMenuFragment" />
+        <action
+            android:id="@+id/action_knifeFightHomeFragment_to_homeConfirmNewGameDialogFragment"
+            app:destination="@id/homeConfirmNewGameDialogFragment" />
+        <action
+            android:id="@+id/action_knifeFightHomeFragment_to_setupFirstStepFragment"
+            app:destination="@id/setupFirstStepFragment" />
+        <action
             android:id="@+id/action_knifeFightHomeFragment_to_knifeFightInfoFragment"
             app:destination="@id/knifeFightInfoFragment" />
         <action
             android:id="@+id/action_knifeFightHomeFragment_to_knifeFightSettingsFragment"
             app:destination="@id/knifeFightSettingsFragment" />
-        <action
-            android:id="@+id/action_knifeFightHomeFragment_to_setupFirstStepFragment"
-            app:destination="@id/setupFirstStepFragment" />
-        <action
-            android:id="@+id/action_knifeFightHomeFragment_to_gamePlayerToolsFragment"
-            app:destination="@id/gamePlayerToolsFragment" />
-        <action
-            android:id="@+id/action_knifeFightHomeFragment_to_setupFirstStepFragment2"
-            app:destination="@id/setupFirstStepFragment" />
-        <action
-            android:id="@+id/action_knifeFightHomeFragment_to_homeConfirmNewGameDialogFragment"
-            app:destination="@id/homeConfirmNewGameDialogFragment" />
     </fragment>
 
     <dialog
@@ -72,6 +69,10 @@
             app:exitAnim="@transition/slide_out_left"
             app:popEnterAnim="@transition/slide_in_left"
             app:popExitAnim="@transition/slide_out_right" />
+        <argument
+            android:name="color"
+            app:argType="com.flounderguy.knifefightutilities.data.Gang$Color"
+            android:defaultValue="NONE" />
     </fragment>
 
 
@@ -87,6 +88,10 @@
             app:exitAnim="@transition/slide_out_left"
             app:popEnterAnim="@transition/slide_in_left"
             app:popExitAnim="@transition/slide_out_right" />
+        <argument
+            android:name="trait"
+            app:argType="com.flounderguy.knifefightutilities.data.Gang$Trait"
+            android:defaultValue="NONE" />
     </fragment>
 
     <fragment
@@ -95,8 +100,8 @@
         android:label="setup_fragment_final_step"
         tools:layout="@layout/setup_fragment_final_step">
         <action
-            android:id="@+id/action_setupFinalStepFragment_to_gamePlayerToolsFragment"
-            app:destination="@id/gamePlayerToolsFragment"
+            android:id="@+id/action_setupFinalStepFragment_to_gameToolsMenuFragment"
+            app:destination="@id/gameToolsMenuFragment"
             app:popUpTo="@id/knifeFightHomeFragment" />
     </fragment>
 
@@ -109,44 +114,41 @@
         tools:layout="@layout/game_dialog_fragment_how_to_use" />
 
     <fragment
-        android:id="@+id/gamePlayerToolsFragment"
-        android:name="com.flounderguy.knifefightutilities.ui.game.tools.GamePlayerToolsFragment"
-        android:label="Knife Fight - Game Tools"
-        tools:layout="@layout/game_fragment_player_tools">
+        android:id="@+id/gameToolsMenuFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.game.tools.GameToolsMenuFragment"
+        android:label="Knife Fight - Game Tools Menu"
+        tools:layout="@layout/game_fragment_tools_menu">
         <action
-            android:id="@+id/action_gamePlayerToolsFragment_to_knifeFightSettingsFragment"
-            app:destination="@id/knifeFightSettingsFragment" />
-        <action
-            android:id="@+id/action_gamePlayerToolsFragment_to_toolsCounterattackModeFragment"
-            app:destination="@id/toolsCounterattackModeFragment" />
-        <action
-            android:id="@+id/action_gamePlayerToolsFragment_to_gamePlayerBannerFragment"
-            app:destination="@id/gamePlayerBannerFragment" />
-        <action
-            android:id="@+id/action_gamePlayerToolsFragment_to_gameHowToUseDialogFragment"
+            android:id="@+id/action_gameToolsMenuFragment_to_gameHowToUseDialogFragment"
             app:destination="@id/toolsHowToUseDialogFragment" />
         <action
-            android:id="@+id/action_gamePlayerToolsFragment_to_toolsEditGangFragment"
-            app:destination="@id/toolsEditGangDialogFragment" />
+            android:id="@+id/action_gameToolsMenuFragment_to_toolsAttackModeFragment"
+            app:destination="@id/toolsAttackModeDialogFragment" />
         <action
-            android:id="@+id/action_gamePlayerToolsFragment_to_toolsCharacterInfoFragment"
+            android:id="@+id/action_gameToolsMenuFragment_to_toolsCounterattackModeFragment"
+            app:destination="@id/toolsCounterattackModeFragment" />
+        <action
+            android:id="@+id/action_gameToolsMenuFragment_to_toolsCharacterInfoFragment"
             app:destination="@id/toolsCharacterInfoDialogFragment" />
         <action
-            android:id="@+id/action_gamePlayerToolsFragment_to_toolsAttackModeFragment"
-            app:destination="@id/toolsAttackModeDialogFragment" />
+            android:id="@+id/action_gameToolsMenuFragment_to_toolsEditGangFragment"
+            app:destination="@id/toolsEditGangDialogFragment" />
+        <action
+            android:id="@+id/action_gameToolsMenuFragment_to_knifeFightSettingsFragment"
+            app:destination="@id/knifeFightSettingsFragment" />
+        <action
+            android:id="@+id/action_gameToolsMenuFragment_to_gamePlayerBannerFragment"
+            app:destination="@id/gameBannerFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/gamePlayerBannerFragment"
-        android:name="com.flounderguy.knifefightutilities.ui.game.banner.GamePlayerBannerFragment"
+        android:id="@+id/gameBannerFragment"
+        android:name="com.flounderguy.knifefightutilities.ui.game.banner.GameBannerFragment"
         android:label="game_fragment_player_banner"
-        tools:layout="@layout/game_fragment_player_banner">
+        tools:layout="@layout/game_fragment_banner">
         <action
-            android:id="@+id/action_gamePlayerBannerFragment_to_gamePlayerToolsFragment"
-            app:destination="@id/gamePlayerToolsFragment" />
-        <argument
-            android:name="hp_count"
-            app:argType="integer" />
+            android:id="@+id/action_gamePlayerBannerFragment_to_gameToolsFragment"
+            app:destination="@id/gameToolsMenuFragment" />
     </fragment>
 
     <fragment
@@ -157,7 +159,7 @@
         <action
             android:id="@+id/action_toolsAttackModeDialogFragment_to_toolsRollResultsFragment"
             app:destination="@id/toolsRollResultsFragment"
-            app:popUpTo="@id/gamePlayerToolsFragment" />
+            app:popUpTo="@id/gameToolsMenuFragment" />
     </fragment>
 
     <fragment
@@ -168,7 +170,7 @@
         <action
             android:id="@+id/action_toolsCounterattackModeFragment_to_toolsRollResultsFragment"
             app:destination="@id/toolsRollResultsFragment"
-            app:popUpTo="@id/gamePlayerToolsFragment" />
+            app:popUpTo="@id/gameToolsMenuFragment" />
     </fragment>
 
     <fragment

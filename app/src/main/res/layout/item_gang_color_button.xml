@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <ImageButton
+<!--Color button layout-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="36dp"
+    android:layout_height="36dp"
+    android:layout_margin="4dp"
+    android:orientation="vertical"
+    app:layout_columnSpan="1"
+    app:layout_rowSpan="1">
+
+    <RadioButton
         android:id="@+id/button_gang_color"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/color_button_oval"
+        android:button="@null"
         tools:ignore="ContentDescription" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/button_color_check"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:src="@drawable/ic_baseline_check_24"
+        android:visibility="gone"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible" />
+
+</RelativeLayout>

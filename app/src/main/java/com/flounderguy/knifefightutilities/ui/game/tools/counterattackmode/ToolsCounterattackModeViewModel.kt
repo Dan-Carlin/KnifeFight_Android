@@ -59,7 +59,7 @@ class ToolsCounterattackModeViewModel @Inject constructor(
     }
 
     fun onCloseButtonClicked() = viewModelScope.launch {
-        counterattackModeEventChannel.send(CounterattackModeEvent.NavigateBackToToolsScreen)
+        counterattackModeEventChannel.send(CounterattackModeEvent.NavigateBackToGameToolsMenuScreen)
     }
 
     /**
@@ -89,6 +89,6 @@ class ToolsCounterattackModeViewModel @Inject constructor(
             val request: ResultRequest
         ) : CounterattackModeEvent()
 
-        object NavigateBackToToolsScreen : CounterattackModeEvent()
+        object NavigateBackToGameToolsMenuScreen : CounterattackModeEvent()
     }
 }

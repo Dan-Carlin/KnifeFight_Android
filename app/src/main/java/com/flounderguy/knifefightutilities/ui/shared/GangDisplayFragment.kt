@@ -24,6 +24,11 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class GangDisplayFragment : Fragment(R.layout.fragment_gang_name_display) {
 
+    enum class TraitDisplay {
+        SHOW,
+        HIDE
+    }
+
     /**
      * Variables
      */
@@ -33,12 +38,11 @@ class GangDisplayFragment : Fragment(R.layout.fragment_gang_name_display) {
     // ViewBinding variable. Since it's needed in every method, it is declared here.
     private lateinit var nameDisplayBinding: FragmentGangNameDisplayBinding
 
-    /**
-     * Lifecycle methods
-     */
     // This executes all the code that should run after creating the view.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val traitArg = arguments?.getSerializable("trait_mode")
 
         // ViewBinding variable
         nameDisplayBinding = FragmentGangNameDisplayBinding.bind(view)
@@ -69,13 +73,19 @@ class GangDisplayFragment : Fragment(R.layout.fragment_gang_name_display) {
                             setColorDisplay(gang.color)
                         }
 
-                        if (gang.trait != Gang.Trait.NONE) {
-                            if (gang.color != null && gang.trait != null)
-                                setTraitDisplay(gang.trait, gang.color)
+                        if (traitArg == TraitDisplay.SHOW) {
+                            if (gang.trait != Gang.Trait.NONE) {
+                                if (gang.color != null && gang.trait != null)
+                                    setTraitDisplay(gang.trait, gang.color)
+                            }
                         }
                     }
                 }
             }
+        }
+
+        if (traitArg == TraitDisplay.HIDE) {
+            hideTraitDisplay()
         }
     }
 
@@ -196,6 +206,29 @@ class GangDisplayFragment : Fragment(R.layout.fragment_gang_name_display) {
                 }
                 setImageDrawable(backgroundDrawable)
             }
+        }
+    }
+
+    private fun hideTraitDisplay() {
+        // ViewBinding variable
+        nameDisplayBinding = FragmentGangNameDisplayBinding.bind(requireView())
+
+        // UI altering code
+        nameDisplayBinding.apply {
+            textGangDescription.visibility = View.GONE
+            imageTraitSymbolBackground.visibility = View.GONE
+        }
+    }
+
+    companion object {
+        fun newInstance(traitMode: TraitDisplay): GangDisplayFragment {
+            val displayArg = Bundle()
+            displayArg.putSerializable("trait_mode", traitMode)
+
+            val newGangDisplayFragment = GangDisplayFragment()
+            newGangDisplayFragment.arguments = displayArg
+
+            return newGangDisplayFragment
         }
     }
 }

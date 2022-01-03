@@ -59,7 +59,7 @@ class SetupFinalStepViewModel @Inject constructor(
     /**
      * Event channel variables
      */
-    // These variables create a flow channel of the objects in the FinalStepEvent class.
+    // These variables create a flow channel of the objects in the sealed event class.
     private val finalStepEventChannel = Channel<FinalStepEvent>()
     val finalStepEvent = finalStepEventChannel.receiveAsFlow()
 
@@ -76,7 +76,7 @@ class SetupFinalStepViewModel @Inject constructor(
     /**
      * Action methods
      */
-    // These are the action methods for buttons in the FinalStepFragment UI.
+    // These are the action methods for buttons in the fragment's UI.
     fun onPreviousStepButtonClicked() = viewModelScope.launch {
         finalStepEventChannel.send(FinalStepEvent.NavigateBackToThirdStep)
     }
@@ -87,7 +87,7 @@ class SetupFinalStepViewModel @Inject constructor(
         for (gang in rivalGangList) {
             repository.insertGang(gang)
         }
-        finalStepEventChannel.send(FinalStepEvent.NavigateToGameToolsScreen)
+        finalStepEventChannel.send(FinalStepEvent.NavigateToGameToolsMenuScreen)
     }
 
     /**
@@ -129,6 +129,6 @@ class SetupFinalStepViewModel @Inject constructor(
     // This creates a list of events that must be implemented at some point.
     sealed class FinalStepEvent {
         object NavigateBackToThirdStep : FinalStepEvent()
-        object NavigateToGameToolsScreen : FinalStepEvent()
+        object NavigateToGameToolsMenuScreen : FinalStepEvent()
     }
 }

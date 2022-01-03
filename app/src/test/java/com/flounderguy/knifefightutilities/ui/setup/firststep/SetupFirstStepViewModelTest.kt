@@ -1,12 +1,14 @@
 package com.flounderguy.knifefightutilities.ui.setup.firststep
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.SavedStateHandle
 import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -44,12 +46,13 @@ class SetupFirstStepViewModelTest {
         coEvery { updateGang(any()) } just runs
         coEvery { insertGang(any()) } just runs
     }
+    private val state = mockk<SavedStateHandle>(relaxed = true)
 
     @Before
     fun setUp() {
         Dispatchers.setMain(dispatcher)
 
-        firstStepViewModel = SetupFirstStepViewModel(repository)
+        firstStepViewModel = SetupFirstStepViewModel(repository, state)
     }
 
     @Test
@@ -73,29 +76,43 @@ class SetupFirstStepViewModelTest {
     }
 
     @Test
-    fun `onFirstStepCompleted() updates Gang when userGang is not null`() = runBlockingTest {
-        // When
-        firstStepViewModel.onFirstStepStarted()
-        // and
-        firstStepViewModel.onFirstStepCompleted()
-
-        // Then
-        coVerify { firstStepViewModel.userGang.value?.let { repository.updateGang(it) } }
-    }
-
-    @Test
-    fun `onFirstStepCompleted() inserts new Gang when userGang is null`() = runBlockingTest {
-        nullGangFlow.collect {
-            // Given
-            every { firstStepViewModel.userGang.value } returns it
-
+    fun `onFirstStepCompleted() updates Gang when userGang is not null and navigates forward`() =
+        runBlockingTest {
             // When
             firstStepViewModel.onFirstStepStarted()
             // and
             firstStepViewModel.onFirstStepCompleted()
 
             // Then
-            coVerify { repository.insertGang(any()) }
+            coVerify { firstStepViewModel.userGang.value?.let { repository.updateGang(it) } }
+            // and
+            assertThat(
+                SetupFirstStepViewModel.FirstStepEvent.NavigateToSecondStepScreen(
+                    firstStepViewModel.gangColor
+                )
+            ).isEqualTo(firstStepViewModel.firstStepEvent.first())
         }
-    }
+
+    @Test
+    fun `onFirstStepCompleted() inserts new Gang when userGang is null and navigates forward`() =
+        runBlockingTest {
+            nullGangFlow.collect {
+                // Given
+                every { firstStepViewModel.userGang.value } returns it
+
+                // When
+                firstStepViewModel.onFirstStepStarted()
+                // and
+                firstStepViewModel.onFirstStepCompleted()
+
+                // Then
+                coVerify { repository.insertGang(any()) }
+                // and
+                assertThat(
+                    SetupFirstStepViewModel.FirstStepEvent.NavigateToSecondStepScreen(
+                        firstStepViewModel.gangColor
+                    )
+                ).isEqualTo(firstStepViewModel.firstStepEvent.first())
+            }
+        }
 }

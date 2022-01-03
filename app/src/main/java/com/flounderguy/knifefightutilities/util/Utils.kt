@@ -2,7 +2,7 @@ package com.flounderguy.knifefightutilities.util
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.widget.ImageView
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.flounderguy.knifefightutilities.BuildConfig
 import com.flounderguy.knifefightutilities.data.CharacterTrait
@@ -42,9 +42,9 @@ fun convertTraitToLabel(trait: CharacterTrait): Gang.Trait {
     return enumValueOf(trait.name.uppercase().replace('-', '_'))
 }
 
-fun getTraitDrawable(context: Context, image: ImageView, trait: CharacterTrait): Drawable? {
+fun getTraitDrawable(context: Context, view: View, trait: CharacterTrait): Drawable? {
     val traitString = "ic_trait_symbol_" + trait.name.lowercase().replace('-', '_')
-    val iconResourceId = image.context.resources.getIdentifier(
+    val iconResourceId = view.context.resources.getIdentifier(
         traitString, "drawable",
         BuildConfig.APPLICATION_ID
     )
@@ -52,9 +52,9 @@ fun getTraitDrawable(context: Context, image: ImageView, trait: CharacterTrait):
     return context.let { ContextCompat.getDrawable(it, iconResourceId) }
 }
 
-fun getTraitDrawable(context: Context, image: ImageView, trait: Gang.Trait): Drawable? {
+fun getTraitDrawable(context: Context, view: View, trait: Gang.Trait): Drawable? {
     val traitString = "ic_trait_symbol_" + trait.asString.lowercase().replace('-', '_')
-    val iconResourceId = image.context.resources.getIdentifier(
+    val iconResourceId = view.context.resources.getIdentifier(
         traitString, "drawable",
         BuildConfig.APPLICATION_ID
     )

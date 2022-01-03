@@ -65,7 +65,7 @@ class ToolsSecondWindViewModel @Inject constructor(
 
     private fun onResultObtained() = viewModelScope.launch {
         if (secondWindIsSuccessful.value == true) {
-            secondWindEventChannel.send(SecondWindEvent.NavigateBackToToolsScreen)
+            secondWindEventChannel.send(SecondWindEvent.NavigateBackToGameToolsMenuScreen)
         } else {
             secondWindEventChannel.send(SecondWindEvent.NavigateToGameOverScreen)
         }
@@ -104,6 +104,6 @@ class ToolsSecondWindViewModel @Inject constructor(
         ) : SecondWindEvent()
 
         object NavigateToGameOverScreen : SecondWindEvent()
-        object NavigateBackToToolsScreen : SecondWindEvent()
+        object NavigateBackToGameToolsMenuScreen : SecondWindEvent()
     }
 }

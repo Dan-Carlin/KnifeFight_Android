@@ -1,7 +1,6 @@
 package com.flounderguy.knifefightutilities.ui.shared
 
 import androidx.lifecycle.*
-import com.flounderguy.knifefightutilities.data.Gang
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

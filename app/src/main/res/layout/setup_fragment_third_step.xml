@@ -10,11 +10,10 @@
     android:padding="@dimen/fragment_padding"
     tools:context=".ui.setup.thirdstep.SetupThirdStepFragment">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/setup_gang_name_layout"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_marginTop="12dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,10 +24,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_previous_step_setup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/setup_gang_name_layout">
 
         <TextView
             android:layout_width="match_parent"

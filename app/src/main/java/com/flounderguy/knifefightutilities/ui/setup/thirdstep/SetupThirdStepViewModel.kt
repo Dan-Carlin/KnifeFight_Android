@@ -23,7 +23,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SetupThirdStepViewModel @Inject constructor(
-    private val repository: KnifeFightRepository
+    private val repository: KnifeFightRepository,
+    state: SavedStateHandle
 ) : ViewModel() {
 
     /**
@@ -38,7 +39,7 @@ class SetupThirdStepViewModel @Inject constructor(
     // These variables hold the values emitted by userGangFlow, or default values if there are none.
     private var gangName = userGang.value?.name ?: ""
     var gangColor = userGang.value?.color ?: Color.NONE
-    var gangTrait = userGang.value?.trait ?: Trait.NONE
+    var gangTrait = state.get("trait") ?: userGang.value?.trait ?: Trait.NONE
         set(value) {
             field = value
             if (value != Trait.NONE) {
@@ -60,7 +61,7 @@ class SetupThirdStepViewModel @Inject constructor(
     /**
      * Event channel variables
      */
-    // These variables create a flow channel of the objects in the ThirdStepEvent class.
+    // These variables create a flow channel of the objects in the sealed event class.
     private val thirdStepEventChannel = Channel<ThirdStepEvent>()
     val thirdStepEvent = thirdStepEventChannel.receiveAsFlow()
 
@@ -82,12 +83,30 @@ class SetupThirdStepViewModel @Inject constructor(
     /**
      * Action methods
      */
-    // These are the action methods for buttons in the ThirdStepFragment UI.
+    // These are the action methods for buttons in the fragment's UI.
     fun onPreviousStepButtonClicked() = viewModelScope.launch {
+        updateGang()
         thirdStepEventChannel.send(ThirdStepEvent.NavigateBackToSecondStep)
     }
 
     fun onThirdStepCompleted() = viewModelScope.launch {
+        updateGang()
+        thirdStepEventChannel.send(ThirdStepEvent.NavigateToFinalStepScreen)
+    }
+
+    /**
+     * Public method
+     */
+    // This compares the CharacterTrait value against the Trait value for the user Gang.
+    fun isUserTrait(trait: CharacterTrait): Boolean {
+        return gangTrait.asString == trait.name
+    }
+
+    /**
+     * Private method
+     */
+    // This method updates the gang with the new values set by the user.
+    private fun updateGang() = viewModelScope.launch {
         val updatedGang = userGang.value!!.copy(
             name = gangName,
             color = gangColor,
@@ -96,13 +115,12 @@ class SetupThirdStepViewModel @Inject constructor(
             isDefeated = false
         )
         repository.updateGang(updatedGang)
-        thirdStepEventChannel.send(ThirdStepEvent.NavigateToFinalStepScreen)
     }
 
     /**
      * Setter method
      */
-    // This method sets the value of the trait variable by converting a CharacterTrait to a Gang.Trait enum.
+    // This method sets the value of the trait variable by converting a CharacterTrait to a Trait enum.
     fun setUserTrait(trait: CharacterTrait) {
         gangTrait = convertTraitToLabel(trait)
     }

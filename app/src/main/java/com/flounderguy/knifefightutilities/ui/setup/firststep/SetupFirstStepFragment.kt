@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.flounderguy.knifefightutilities.R
 import com.flounderguy.knifefightutilities.databinding.SetupFragmentFirstStepBinding
 import com.flounderguy.knifefightutilities.ui.shared.GangDisplayFragment
+import com.flounderguy.knifefightutilities.ui.shared.GangDisplayFragment.TraitDisplay
 import com.flounderguy.knifefightutilities.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -35,11 +35,11 @@ class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
     // This creates an instance of the viewModel for this fragment.
     private val firstStepViewModel: SetupFirstStepViewModel by viewModels()
 
-    // This creates the gang display sub fragment for this screen.
-    private lateinit var gangDisplayFragment: GangDisplayFragment
-
     // This creates the ViewBinding for this fragment.
     private lateinit var firstStepBinding: SetupFragmentFirstStepBinding
+
+    // This creates the gang display sub fragment for this screen.
+    private lateinit var gangDisplayFragment: GangDisplayFragment
 
     /**
      * Lifecycle methods
@@ -51,12 +51,13 @@ class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
         savedInstanceState: Bundle?
     ): View? {
         // GangDisplayFragment initialization
-        gangDisplayFragment = GangDisplayFragment()
         val displayFragmentManager = parentFragmentManager
-        val fragmentTransaction: FragmentTransaction = displayFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.setup_gang_name_layout, gangDisplayFragment)
-            .addToBackStack(null)
-        fragmentTransaction.commit()
+        gangDisplayFragment = GangDisplayFragment.newInstance(TraitDisplay.SHOW)
+
+        displayFragmentManager.beginTransaction().apply {
+            replace(R.id.setup_gang_name_layout, gangDisplayFragment)
+            commit()
+        }
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -96,7 +97,9 @@ class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
                     }
                     is SetupFirstStepViewModel.FirstStepEvent.NavigateToSecondStepScreen -> {
                         val actionFirstStepToSecondStep =
-                            SetupFirstStepFragmentDirections.actionSetupFirstStepFragmentToSetupSecondStepFragment()
+                            SetupFirstStepFragmentDirections.actionSetupFirstStepFragmentToSetupSecondStepFragment(
+                                event.color
+                            )
                         findNavController().navigate(actionFirstStepToSecondStep)
                     }
                 }.exhaustive
@@ -110,6 +113,8 @@ class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
         firstStepBinding = SetupFragmentFirstStepBinding.bind(requireView())
 
         firstStepBinding.apply {
+            buttonNextStepSetup.isEnabled = firstStepViewModel.gangName.isNotEmpty()
+
             editGangNameSetup.apply {
                 setText(firstStepViewModel.gangName)
 
@@ -141,7 +146,6 @@ class SetupFirstStepFragment : Fragment(R.layout.setup_fragment_first_step) {
                 })
             }
         }
-
         firstStepViewModel.onFirstStepStarted()
     }
 }

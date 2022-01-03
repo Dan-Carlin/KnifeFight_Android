@@ -33,7 +33,7 @@ class ToolsEditGangViewModel @Inject constructor() : ViewModel() {
      */
     // This creates functions that can be called from the fragment to execute each event.
     fun onCloseButtonClicked() = viewModelScope.launch {
-        editGangEventChannel.send(EditGangEvent.NavigateBackToToolsScreen)
+        editGangEventChannel.send(EditGangEvent.NavigateBackToGameToolsMenuScreen)
     }
 
     /**
@@ -41,6 +41,6 @@ class ToolsEditGangViewModel @Inject constructor() : ViewModel() {
      */
     // This creates a list of events that must be implemented at some point.
     sealed class EditGangEvent {
-        object NavigateBackToToolsScreen : EditGangEvent()
+        object NavigateBackToGameToolsMenuScreen : EditGangEvent()
     }
 }

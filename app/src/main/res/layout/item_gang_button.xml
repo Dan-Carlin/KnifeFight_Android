@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Gang button layout-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_margin="4dp"
+    app:layout_columnSpan="1"
+    app:layout_rowSpan="1">
+
+    <ImageView
+        android:id="@+id/image_trait_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:padding="4dp"
+        tools:ignore="ContentDescription"
+        tools:src="@tools:sample/avatars" />
+
+    <CheckBox
+        android:id="@+id/button_gang_defeated"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gang_checkbox"
+        android:button="@null"
+        app:srcCompat="@drawable/ic_kf_defeated_mark" />
+
+    <View
+        android:id="@+id/button_disabled_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/trait_box_disabled"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</RelativeLayout>

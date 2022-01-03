@@ -1,16 +1,15 @@
 package com.flounderguy.knifefightutilities.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.flounderguy.knifefightutilities.data.KnifeFightRepository
+import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,18 +24,16 @@ class KnifeFightHomeViewModelTest {
 
     private val dispatcher = TestCoroutineDispatcher()
     private lateinit var homeViewModel: KnifeFightHomeViewModel
-    private lateinit var repository: KnifeFightRepository
-    private lateinit var state: SavedStateHandle
+
+    private val repository = mockk<KnifeFightRepository> {
+        coEvery { clearGangs() } just runs
+        coEvery { rivalGangsExist() } returns true
+    }
+    private val state = mockk<SavedStateHandle>(relaxed = true)
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
-
-        repository = mockk {
-            coEvery { clearGangs() } just runs
-            coEvery { rivalGangsExist() } returns true
-        }
-        state = mockk(relaxed = true)
 
         homeViewModel = KnifeFightHomeViewModel(repository, state)
     }
@@ -44,24 +41,25 @@ class KnifeFightHomeViewModelTest {
     @Test
     fun `onNewGameStarted verifies existing game when activeGame is true`() = runBlockingTest {
         // When
+        homeViewModel.onAppStarted()
+        // and
         homeViewModel.onNewGameStarted()
 
         // Then
-        assertEquals(
-            KnifeFightHomeViewModel.HomeEvent.NavigateToConfirmNewGameScreen,
-            homeViewModel.homeEvent.first()
-        )
+        assertThat(KnifeFightHomeViewModel.HomeEvent.NavigateToConfirmNewGameScreen)
+            .isEqualTo(homeViewModel.homeEvent.first())
     }
 
     @Test
     fun `onNewGameStarted navigates to first step when activeGame is false`() = runBlockingTest {
         // When
+        coEvery { repository.rivalGangsExist() } returns false
+        homeViewModel.onAppStarted()
+        // and
         homeViewModel.onNewGameStarted()
 
         // Then
-        assertNotEquals(
-            KnifeFightHomeViewModel.HomeEvent.NavigateToFirstStepScreen,
-            homeViewModel.homeEvent.first()
-        )
+        assertThat(KnifeFightHomeViewModel.HomeEvent.NavigateToFirstStepScreen)
+            .isEqualTo(homeViewModel.homeEvent.first())
     }
 }

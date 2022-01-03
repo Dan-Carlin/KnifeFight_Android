@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel for the GamePlayerBannerFragment.
+ * ViewModel for the GameBannerFragment.
  * This ViewModel is in charge of:
  *      - Retrieving key pieces of data from the database.
  *      - Splitting that data up into displayable components.
@@ -18,7 +18,7 @@ import javax.inject.Inject
  *      - Providing navigation events for the fragment to implement.
  */
 @HiltViewModel
-class GamePlayerBannerViewModel @Inject constructor(
+class GameBannerViewModel @Inject constructor(
     private val repository: KnifeFightRepository,
     private val state: SavedStateHandle
 ) : ViewModel() {
@@ -47,7 +47,7 @@ class GamePlayerBannerViewModel @Inject constructor(
      * Stat holder for the user's character trait
      */
     // This provides a handle for the user's trait stats.
-//    private val traitData = userGangTrait.value?.let { repository.getTraitFlow(it).asLiveData() }
+    private val traitData = userGangTrait.value?.let { repository.getTraitFlow(it).asLiveData() }
 
     /**
      * Variable for the remaining HP
@@ -58,29 +58,29 @@ class GamePlayerBannerViewModel @Inject constructor(
     val hpCount: LiveData<Int>
         get() = _hpCount
 
-//    /**
-//     * Character trait stats
-//     */
-//    // This uses the traitData holder and splits the stats into their own variables.
-//    private val _traitHpStat = MutableLiveData<Int>(traitData?.value?.hp)
-//    private val traitHpStat: LiveData<Int>
-//        get() = _traitHpStat
-//
-//    private val _traitGutsStat = MutableLiveData<Int>(traitData?.value?.guts)
-//    private val traitGutsStat: LiveData<Int>
-//        get() = _traitGutsStat
-//
-//    private val _traitAttackStat = MutableLiveData<Int>(traitData?.value?.attack)
-//    private val traitAttackStat: LiveData<Int>
-//        get() = _traitAttackStat
-//
-//    private val _traitDamageStat = MutableLiveData<Int>(traitData?.value?.damage)
-//    private val traitDamageStat: LiveData<Int>
-//        get() = _traitDamageStat
-//
-//    private val _traitLuckStat = MutableLiveData<Int>(traitData?.value?.luck)
-//    private val traitLuckStat: LiveData<Int>
-//        get() = _traitLuckStat
+    /**
+     * Character trait stats
+     */
+    // This uses the traitData holder and splits the stats into their own variables.
+    private val _traitHpStat = MutableLiveData<Int>(traitData?.value?.hp)
+    private val traitHpStat: LiveData<Int>
+        get() = _traitHpStat
+
+    private val _traitGutsStat = MutableLiveData<Int>(traitData?.value?.guts)
+    private val traitGutsStat: LiveData<Int>
+        get() = _traitGutsStat
+
+    private val _traitAttackStat = MutableLiveData<Int>(traitData?.value?.attack)
+    private val traitAttackStat: LiveData<Int>
+        get() = _traitAttackStat
+
+    private val _traitDamageStat = MutableLiveData<Int>(traitData?.value?.damage)
+    private val traitDamageStat: LiveData<Int>
+        get() = _traitDamageStat
+
+    private val _traitLuckStat = MutableLiveData<Int>(traitData?.value?.luck)
+    private val traitLuckStat: LiveData<Int>
+        get() = _traitLuckStat
 
     /**
      * Event channel for BannerEvents
@@ -94,7 +94,7 @@ class GamePlayerBannerViewModel @Inject constructor(
      */
     // This creates functions that can be called from the fragment to execute each event.
     fun onToolsModeClicked() = viewModelScope.launch {
-        bannerEventChannel.send(BannerEvent.NavigateBackToToolsScreen)
+        bannerEventChannel.send(BannerEvent.NavigateBackToGameToolsMenuScreen)
     }
 
     /**
@@ -102,6 +102,6 @@ class GamePlayerBannerViewModel @Inject constructor(
      */
     // This creates a list of events that must be implemented at some point.
     sealed class BannerEvent {
-        object NavigateBackToToolsScreen : BannerEvent()
+        object NavigateBackToGameToolsMenuScreen : BannerEvent()
     }
 }

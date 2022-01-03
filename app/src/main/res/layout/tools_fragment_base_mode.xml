@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Layout for ToolsBaseModeFragment, the default tools screen with hp counter and rival tracking buttons.-->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/fragment_padding"
+    android:paddingTop="@dimen/fragment_padding"
+    android:paddingEnd="@dimen/fragment_padding"
+    tools:context=".ui.game.tools.basemode.ToolsBaseModeFragment">
+
+    <ImageView
+        android:id="@+id/tools_base_mode_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <FrameLayout
+        android:id="@+id/tools_gang_name_layout"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_edit_gang_tools"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:background="#80000000"
+        android:contentDescription="@string/button_edit_gang_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+    <LinearLayout
+        android:id="@+id/tools_rival_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_gang_name_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cabin_bold"
+            android:text="@string/text_rivals_remaining_info" />
+
+        <HorizontalScrollView
+            android:id="@+id/tools_rival_scroll_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.flounderguy.knifefightutilities.util.RadioGridGroup
+                android:id="@+id/tools_rival_gangs_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tools_base_mode_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tools_rival_layout">
+
+        <LinearLayout
+            android:id="@+id/tools_hp_counter_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_kf_background_container"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/cabin_condensed_bold"
+                android:includeFontPadding="false"
+                android:text="@string/text_hp_label"
+                android:textAlignment="center"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/text_hp_count_tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cabin"
+                android:includeFontPadding="false"
+                android:textAlignment="center"
+                android:textSize="70sp"
+                tools:text="25" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/button_minus_hp_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="32dp"
+            android:contentDescription="@string/button_decrease_hp_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tools_hp_counter_layout" />
+
+        <ImageButton
+            android:id="@+id/button_plus_hp_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="32dp"
+            android:contentDescription="@string/button_increase_hp_desc"
+            android:src="@drawable/ic_baseline_highlight_alt_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tools_hp_counter_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
